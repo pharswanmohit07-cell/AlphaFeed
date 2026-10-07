@@ -370,7 +370,7 @@ function HomeFeed({ feed, setFeed, onCopy, onProfile, onCompose, viewMode, setVi
 
 export default function App() {
   const getRoute = () => {
-    const path = window.location.pathname.replace(/\\/+$/, '') || '/'
+    const path = window.location.pathname.replace(/\/+$/, '') || '/'
     return path === '/app' || path === '/feed' ? path : '/'
   }
 

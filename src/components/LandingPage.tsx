@@ -53,17 +53,11 @@ export default function LandingPage({ onLaunchApp, onExploreTraders }: Props) {
             <div className="mt-8 flex flex-wrap gap-5 text-[10px] uppercase tracking-[.14em] text-zinc-600"><span className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-emerald-500" /> On-chain verification</span><span className="flex items-center gap-1.5"><Link2 size={14} className="text-emerald-500" /> Monad execution</span><span className="flex items-center gap-1.5"><Brain size={14} className="text-emerald-500" /> AI analysis</span></div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-xl">
-            <div className="absolute -inset-10 rounded-full bg-emerald-400/[.07] blur-[80px]" />
-            <div className="absolute -inset-6 overflow-hidden rounded-[2rem] border border-emerald-500/10 bg-emerald-500/[.02] shadow-[0_0_120px_rgba(52,211,153,.08)]">
-              <img src="/alphafeed-hero-art.svg" alt="" aria-hidden="true" className="h-full w-full scale-[1.14] object-cover opacity-40 mix-blend-screen transition duration-700 hover:scale-[1.17] hover:opacity-50" />
-              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/15 to-transparent" />
-            </div>
-            <div className="relative overflow-hidden rounded-2xl border border-zinc-700/80 bg-zinc-900/80 shadow-2xl backdrop-blur-xl">
+          <div className="relative mx-auto w-full max-w-xl"><div className="absolute -inset-10 rounded-full bg-emerald-400/[.07] blur-[80px]" /><div className="relative overflow-hidden rounded-2xl border border-zinc-700/80 bg-zinc-900/80 shadow-2xl backdrop-blur-xl">
             <div className="flex items-center justify-between border-b border-zinc-800 px-5 py-3 text-[9px] uppercase tracking-[.18em] text-zinc-600"><span>● ● ●</span><span>AlphaFeed / Live Setup</span><span className="text-emerald-400">● LIVE</span></div>
             <div className="p-5 sm:p-6">
               <div className="flex items-center justify-between"><div className="flex items-center gap-3"><div className="grid size-10 place-items-center rounded-full bg-emerald-500/10 text-xs font-bold text-emerald-300">AM</div><div><div className="flex items-center gap-1.5 text-sm font-semibold">Alex Morgan <ShieldCheck size={14} className="text-emerald-400" /></div><div className="text-[10px] text-zinc-600">@alexalpha · Verified trader</div></div></div><span className="rounded-full bg-emerald-500/[.06] px-2 py-1 text-[9px] font-semibold text-emerald-400">+18.6% ROI</span></div>
-              <div className="mt-6 flex items-end justify-between"><div><div className="flex items-center gap-2 text-[10px] uppercase tracking-[.15em] text-zinc-600"><span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,.7)]" /> Live setup</div><div className="mt-1 text-[10px] uppercase tracking-[.15em] text-zinc-600">Market</div><div className="mt-1 flex items-center gap-2 text-2xl font-bold">MON <span className="rounded bg-emerald-500/10 px-1.5 py-0.5 text-[9px] text-emerald-400">BUY</span></div></div><div className="text-right"><div className="text-[10px] text-zinc-600">Entry</div><div className="font-mono text-sm">$0.0842</div></div></div>
+              <div className="mt-6 flex items-end justify-between"><div><div className="text-[10px] uppercase tracking-[.15em] text-zinc-600">Market</div><div className="mt-1 flex items-center gap-2 text-2xl font-bold">MON <span className="rounded bg-emerald-500/10 px-1.5 py-0.5 text-[9px] text-emerald-400">BUY</span></div></div><div className="text-right"><div className="text-[10px] text-zinc-600">Entry</div><div className="font-mono text-sm">$0.0842</div></div></div>
               <div className="relative mt-5 h-48 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950/80"><div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.025)_1px,transparent_1px)] bg-[size:36px_36px]" /><svg viewBox="0 0 500 200" preserveAspectRatio="none" className="absolute inset-0 h-full w-full"><path d="M0 150 C45 158 65 120 105 132 C145 145 170 85 205 102 C245 120 270 55 305 75 C350 100 370 48 410 58 C445 67 465 30 500 18" fill="none" stroke="#34d399" strokeWidth="2"/></svg><div className="absolute left-0 right-0 top-[25%] border-t border-dashed border-emerald-400/70"><span className="absolute right-2 -top-3 bg-emerald-500/10 px-1.5 py-0.5 font-mono text-[8px] text-emerald-400">TP $0.1028</span></div><div className="absolute left-0 right-0 top-[54%] border-t border-dashed border-zinc-500/70"><span className="absolute right-2 -top-3 bg-zinc-800 px-1.5 py-0.5 font-mono text-[8px] text-zinc-400">ENTRY $0.0842</span></div><div className="absolute left-0 right-0 top-[75%] border-t border-dashed border-red-400/50"><span className="absolute right-2 -top-3 bg-red-500/10 px-1.5 py-0.5 font-mono text-[8px] text-red-400">SL $0.0784</span></div></div>
               <div className="mt-4 grid grid-cols-3 gap-2">{['Entry $0.0842','Target $0.1028','Stop $0.0784'].map((x,i)=><div key={x} className="rounded-lg border border-zinc-800 bg-zinc-950/70 p-2.5 text-[10px]"><span className="text-zinc-600">{x.split(' ')[0]}</span><div className={i===1?'text-emerald-400':i===2?'text-red-400':'text-zinc-300'}>{x.split(' ')[1]}</div></div>)}</div>
               <button onClick={onLaunchApp} className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-400 py-3 text-xs font-bold text-zinc-950 hover:bg-emerald-300"><Copy size={14}/> Copy Trade Preview <ArrowRight size={14}/></button><p className="mt-3 text-center text-[9px] text-zinc-600">Prototype preview · no real order is submitted</p>
@@ -71,45 +65,7 @@ export default function LandingPage({ onLaunchApp, onExploreTraders }: Props) {
           </div></div>
         </section>
 
-        <section className="relative overflow-hidden border-y border-zinc-800/80 bg-zinc-900/30">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-emerald-500/[.05] to-transparent" /><div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-zinc-800/70 md:grid-cols-4">{stats.map(([label,value,Icon])=><div key={label} className="flex items-center gap-3 px-5 py-6 sm:px-8"><Icon className="hidden h-4 w-4 text-emerald-400 sm:block"/><div><div className="text-lg font-bold">{value}</div><div className="text-[9px] uppercase tracking-[.13em] text-zinc-600">{label}</div></div></div>)}</div></section>
-
-        <section className="px-5 py-10 sm:px-8">
-          <div className="mx-auto max-w-7xl">
-            <div className="relative overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-950/80 shadow-[0_25px_100px_rgba(0,0,0,.35)]">
-              <img src="/alphafeed-hero-art.svg" alt="AlphaFeed trading interface preview" className="absolute inset-0 h-full w-full object-cover opacity-25" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_20%,rgba(52,211,153,.12),transparent_30%),linear-gradient(90deg,rgba(3,7,18,.98)_0%,rgba(3,7,18,.92)_46%,rgba(3,7,18,.48)_100%)]" />
-              <div className="relative grid gap-8 p-7 sm:p-10 lg:grid-cols-[1fr_.8fr] lg:items-center">
-                <div>
-                  <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/[.06] px-3 py-1.5 text-[10px] uppercase tracking-[.18em] text-emerald-300">
-                    <ChartCandlestick size={13} /> Built like a terminal
-                  </div>
-                  <h2 className="mt-5 max-w-xl text-3xl font-semibold tracking-tight sm:text-4xl">A social feed that feels like a trading desk.</h2>
-                  <p className="mt-4 max-w-xl text-sm leading-6 text-zinc-500">The visual layer is intentionally dense: live pulse, trader cards, execution context, and chart-first decisions in one cyber-terminal surface.</p>
-                  <div className="mt-7 flex flex-wrap gap-2 text-[10px] uppercase tracking-[.12em] text-zinc-500">
-                    <span className="rounded-full border border-zinc-800 bg-black/20 px-3 py-1.5">Live Pulse</span>
-                    <span className="rounded-full border border-zinc-800 bg-black/20 px-3 py-1.5">Trader Profiles</span>
-                    <span className="rounded-full border border-zinc-800 bg-black/20 px-3 py-1.5">Chart Context</span>
-                    <span className="rounded-full border border-zinc-800 bg-black/20 px-3 py-1.5">On-Chain UX</span>
-                  </div>
-                </div>
-                <div className="relative min-h-[230px]">
-                  <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-emerald-400/[.12] blur-[60px]" />
-                  <div className="absolute right-4 top-5 w-full max-w-sm rotate-2 rounded-2xl border border-emerald-400/20 bg-zinc-900/80 p-4 shadow-2xl backdrop-blur-xl">
-                    <div className="flex items-center justify-between">
-                      <div><div className="text-[10px] uppercase tracking-[.15em] text-zinc-600">Execution Preview</div><div className="mt-1 text-lg font-semibold">MON / USDC</div></div>
-                      <span className="rounded-full bg-emerald-500/10 px-2 py-1 text-[9px] font-semibold text-emerald-400">VERIFIED</span>
-                    </div>
-                    <div className="mt-5 h-24 rounded-xl border border-zinc-800 bg-zinc-950/80 p-2">
-                      <svg viewBox="0 0 360 90" className="h-full w-full" preserveAspectRatio="none"><path d="M0 74 C30 70 49 62 75 67 C106 74 121 45 151 51 C176 55 188 29 214 39 C246 51 265 17 287 23 C315 31 331 13 360 8" fill="none" stroke="#34d399" strokeWidth="2.5" /></svg>
-                    </div>
-                    <div className="mt-3 flex items-center justify-between text-[10px]"><span className="text-zinc-500">Target <span className="text-emerald-400">$0.5100</span></span><span className="text-zinc-500">Stop <span className="text-red-400">$0.3810</span></span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <section className="border-y border-zinc-800/80 bg-zinc-900/30"><div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-zinc-800/70 md:grid-cols-4">{stats.map(([label,value,Icon])=><div key={label} className="flex items-center gap-3 px-5 py-6 sm:px-8"><Icon className="hidden h-4 w-4 text-emerald-400 sm:block"/><div><div className="text-lg font-bold">{value}</div><div className="text-[9px] uppercase tracking-[.13em] text-zinc-600">{label}</div></div></div>)}</div></section>
 
         <section id="features" className="scroll-mt-20 px-5 py-24 sm:px-8"><div className="mx-auto max-w-7xl"><Heading eyebrow="THE ALPHAFEED LOOP" title="From signal to execution." description="A social trading workflow built around discovery, analysis and programmable execution."/><div className="mt-14 grid gap-4 md:grid-cols-3">{steps.map(([num,title,desc,Icon])=><div key={num} className="group relative rounded-2xl border border-zinc-800 bg-zinc-900/50 p-7 hover:-translate-y-1 hover:border-emerald-500/20"><div className="absolute right-5 top-5 text-5xl font-black text-zinc-800/60">{num}</div><div className="grid size-11 place-items-center rounded-xl border border-emerald-500/20 bg-emerald-500/[.07]"><Icon size={20} className="text-emerald-400"/></div><h3 className="mt-7 text-xl font-semibold">{title}</h3><p className="mt-3 text-sm leading-6 text-zinc-500">{desc}</p><div className="mt-7 flex items-center gap-2 text-[10px] uppercase tracking-[.15em] text-emerald-400">Explore <ChevronRight size={14}/></div></div>)}</div></div></section>
 

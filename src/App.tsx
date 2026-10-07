@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import InteractiveTradeChart from './components/InteractiveTradeChart'
 import OnChainDetails from './components/OnChainDetails'
 import AlphaInsights from './components/AlphaInsights'
 import CopyDrawer from './components/CopyDrawer'
-import LandingPage from './components/LandingPage'
+const LandingPage = lazy(() => import('./components/LandingPage'))
 import LiveTicker from './components/LiveTicker'
 import PerformanceModeToggle from './components/PerformanceModeToggle'
 import { usePerformanceMode } from './hooks/usePerformanceMode'
@@ -445,13 +445,15 @@ export default function App() {
 
   if (route === '/') {
     return (
-      <LandingPage
-        onLaunchApp={() => navigate('/app')}
-        onExploreTraders={() => {
-          navigate('/app')
-          setActive('Explore')
-        }}
-      />
+      <Suspense fallback={<div className="min-h-screen bg-zinc-950" />}>
+        <LandingPage
+          onLaunchApp={() => navigate('/app')}
+          onExploreTraders={() => {
+            navigate('/app')
+            setActive('Explore')
+          }}
+        />
+      </Suspense>
     )
   }
 

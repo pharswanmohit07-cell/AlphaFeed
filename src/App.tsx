@@ -5,6 +5,8 @@ import AlphaInsights from './components/AlphaInsights'
 import CopyDrawer from './components/CopyDrawer'
 import LandingPage from './components/LandingPage'
 import LiveTicker from './components/LiveTicker'
+import PerformanceModeToggle from './components/PerformanceModeToggle'
+import { usePerformanceMode } from './hooks/usePerformanceMode'
 import {
   Activity,
   ArrowUpRight,
@@ -302,11 +304,17 @@ function Composer({ onClose, onPublish }: { onClose: () => void; onPublish: (tex
   )
 }
 
-function Sidebar({ active, setActive }: { active: string; setActive: (value: string) => void }) {
+function Sidebar({ active, setActive, performanceMode, onPerformanceModeChange }: { active: string; setActive: (value: string) => void; performanceMode: boolean; onPerformanceModeChange: (enabled: boolean) => void }) {
   return (
     <aside className="hidden min-h-[calc(100vh-64px)] border-r border-line p-4 lg:block">
       <nav className="space-y-1">{navigationItems.map(({ label, icon: Icon }) => <button key={label} onClick={() => setActive(label)} className={'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm ' + (active === label ? 'bg-white/[0.07] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,.04)]' : 'text-slate-500 hover:bg-white/[0.03] hover:text-slate-300')}><Icon size={18} />{label}</button>)}</nav>
-      <div className="mt-7 border-t border-line pt-5"><button className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-500 hover:text-slate-300"><Settings size={18} />Settings</button></div>
+      <div className="mt-7 border-t border-line pt-5">
+        <button onClick={() => onPerformanceModeChange(!performanceMode)} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm text-slate-500 hover:text-slate-300">
+          <Settings size={18} />
+          <span className="flex-1">Settings</span>
+          <span className={performanceMode ? 'text-[10px] text-accent' : 'text-[10px] text-slate-700'}>Eco</span>
+        </button>
+      </div>
       <div className="mt-7 rounded-2xl border border-line bg-panel p-4"><div className="flex items-center gap-2 text-xs font-semibold text-slate-300"><Sparkles size={14} className="text-accent" />Alpha Insight</div><p className="mt-2 text-sm leading-6 text-slate-600">Use AI to summarize charts and trading theses. Every actual execution remains traceable on-chain.</p><div className="mt-3 flex items-center gap-2 text-[10px] uppercase tracking-wider text-slate-600"><span className="size-1.5 rounded-full bg-accent" />Hunyuan ready</div></div>
       <div className="mt-4 rounded-2xl border border-line bg-gradient-to-br from-white/[0.04] to-transparent p-4"><div className="flex items-center gap-2 text-xs text-slate-400"><Gauge size={14} />Market health</div><div className="mt-3 flex items-end justify-between"><span className="text-2xl font-semibold">78</span><span className="text-xs text-accent">Healthy</span></div><div className="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-800"><div className="h-full w-[78%] rounded-full bg-accent" /></div></div>
     </aside>
@@ -388,6 +396,7 @@ export default function App() {
   const [feed, setFeed] = useState(initialPosts)
   const [viewMode, setViewMode] = useState<'social' | 'terminal'>('terminal')
   const [toast, setToast] = useState<string | null>(null)
+  const [performanceMode, setPerformanceMode] = usePerformanceMode()
 
   const title = useMemo(() => ({ Home: 'Your Feed', Explore: 'Discover Traders', Leaderboard: 'Top Traders', Portfolio: 'Your Portfolio' }[active] ?? active), [active])
   const openCopy = (trader: Trader, post?: Post) => { setCopyTrader(trader); setCopyPost(post ?? null) }
@@ -456,6 +465,7 @@ export default function App() {
           <div className="flex items-center gap-3 pr-2"><div className="grid size-9 place-items-center rounded-xl bg-accent text-sm font-black text-ink shadow-[0_0_25px_rgba(116,242,124,.15)]">α</div><div className="hidden sm:block"><div className="text-sm font-semibold tracking-tight">AlphaFeed</div><div className="text-[10px] uppercase tracking-[0.22em] text-slate-500">social trading</div></div></div>
           <div className="relative hidden max-w-2xl flex-1 lg:block"><Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600" size={17} /><input className="w-full rounded-xl border border-line bg-panel py-2.5 pl-10 pr-4 text-sm outline-none placeholder:text-slate-600 focus:border-slate-600" placeholder="Search traders, tokens, ideas..." /></div>
           <div className="ml-auto flex items-center gap-2">
+            <PerformanceModeToggle enabled={performanceMode} onChange={setPerformanceMode} compact />
             <div className="hidden items-center gap-2 rounded-full border border-line bg-panel px-3 py-2 text-[10px] uppercase tracking-[0.16em] text-slate-500 md:flex"><span className="size-1.5 rounded-full bg-accent" />Monad <span className="text-slate-700">·</span> online</div>
             <button onClick={() => setComposerOpen(true)} className="hidden items-center gap-2 rounded-xl border border-line bg-panel px-3 py-2 text-sm text-slate-300 hover:border-slate-600 md:flex"><Plus size={16} />Post</button>
             <div className="relative"><button onClick={() => { setNotificationsOpen((v) => !v); setWalletOpen(false) }} className="relative rounded-xl border border-line bg-panel p-2.5 text-slate-300" aria-label="Notifications"><Bell size={18} /><span className="absolute right-1.5 top-1.5 size-1.5 rounded-full bg-accent" /></button>{notificationsOpen && <div className="absolute right-0 top-12 w-80 rounded-2xl border border-line bg-[#0c1016] p-3 shadow-2xl"><div className="px-2 py-2 text-sm font-semibold">Notifications</div>{['Alice executed a new trade · MON BUY $1,000','Your copy settings are active for Alice','David posted a new strategy'].map((x) => <div key={x} className="rounded-xl px-2 py-3 text-xs leading-5 text-slate-400 hover:bg-white/[0.03]">{x}</div>)}</div>}</div>
@@ -465,7 +475,7 @@ export default function App() {
       </header>
 
       <main className="mx-auto grid max-w-[1500px] grid-cols-1 lg:grid-cols-[220px_minmax(0,1fr)_315px]">
-        <Sidebar active={active} setActive={setActive} />
+        <Sidebar active={active} setActive={setActive} performanceMode={performanceMode} onPerformanceModeChange={setPerformanceMode} />
         {mobileOpen && <div className="absolute left-0 top-16 z-30 w-64 border-r border-b border-line bg-ink p-4 shadow-xl lg:hidden"><nav className="space-y-1">{navigationItems.map(({label,icon:Icon}) => <button key={label} onClick={() => { setActive(label); setMobileOpen(false) }} className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm text-slate-300"><Icon size={18} />{label}</button>)}</nav></div>}
 
         <section className="min-w-0 border-r border-line">

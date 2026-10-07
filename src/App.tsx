@@ -385,7 +385,7 @@ export default function App() {
   const [profileTrader, setProfileTrader] = useState<Trader | null>(null)
   const [composerOpen, setComposerOpen] = useState(false)
   const [feed, setFeed] = useState(initialPosts)
-  const [viewMode, setViewMode] = useState<'social' | 'terminal'>('social')
+  const [viewMode, setViewMode] = useState<'social' | 'terminal'>('terminal')
   const [toast, setToast] = useState<string | null>(null)
 
   const title = useMemo(() => ({ Home: 'Your Feed', Explore: 'Discover Traders', Leaderboard: 'Top Traders', Portfolio: 'Your Portfolio' }[active] ?? active), [active])
@@ -393,13 +393,29 @@ export default function App() {
   const showToast = (message: string) => { setToast(message); window.setTimeout(() => setToast(null), 3200) }
   const publish = (text: string) => { setFeed([{ id: String(Date.now()), trader: traders[0], time: 'now', side: 'BUY', token: 'MON', pair: 'MON / USDC', entry: '$0.4208', target: '$0.5100', stop: '$0.3810', text, likes: 0, comments: 0, chart: 'up', confidence: 'AI pending' }, ...feed]); setComposerOpen(false); setActive('Home') }
 
-  const navigate = (path: '/app' | '/feed' | '/') => {
-    window.history.pushState({}, '', path)
+  const navigate = (path: '/' | '/app' | '/feed') => {
+    if (window.location.pathname !== path) {
+      window.history.pushState({}, '', path)
+    }
     setRoute(path)
+
+    if (path === '/app' || path === '/feed') {
+      setActive('Home')
+      setViewMode('terminal')
+    }
   }
 
   useEffect(() => {
-    const handlePopState = () => setRoute(getRoute())
+    const handlePopState = () => {
+      const nextRoute = getRoute()
+      setRoute(nextRoute)
+
+      if (nextRoute === '/app' || nextRoute === '/feed') {
+        setActive('Home')
+        setViewMode('terminal')
+      }
+    }
+
     const normalized = getRoute()
 
     if (window.location.pathname !== normalized) {
@@ -407,6 +423,12 @@ export default function App() {
     }
 
     setRoute(normalized)
+
+    if (normalized === '/app' || normalized === '/feed') {
+      setActive('Home')
+      setViewMode('terminal')
+    }
+
     window.addEventListener('popstate', handlePopState)
     return () => window.removeEventListener('popstate', handlePopState)
   }, [])
@@ -414,11 +436,7 @@ export default function App() {
   if (route === '/') {
     return (
       <LandingPage
-        onLaunchApp={() => {
-          navigate('/app')
-          setActive('Home')
-          setViewMode('social')
-        }}
+        onLaunchApp={() => navigate('/app')}
         onExploreTraders={() => {
           navigate('/app')
           setActive('Explore')

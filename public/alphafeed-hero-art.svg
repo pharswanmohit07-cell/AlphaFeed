@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" fill="none">
+<defs>
+  <linearGradient id="bg" x1="150" y1="120" x2="1420" y2="900" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#071512"/>
+    <stop offset=".45" stop-color="#07100f"/>
+    <stop offset="1" stop-color="#030708"/>
+  </linearGradient>
+  <linearGradient id="frame" x1="180" y1="90" x2="1200" y2="880" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#3e5f59" stop-opacity=".9"/>
+    <stop offset=".35" stop-color="#1d3934"/>
+    <stop offset="1" stop-color="#0a1514"/>
+  </linearGradient>
+  <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#34d399" stop-opacity=".9"/>
+    <stop offset="1" stop-color="#14b8a6" stop-opacity=".15"/>
+  </linearGradient>
+  <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#263a36" stop-opacity=".96"/>
+    <stop offset="1" stop-color="#0b1715" stop-opacity=".98"/>
+  </linearGradient>
+  <filter id="blur40" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur stdDeviation="40"/>
+  </filter>
+  <filter id="blur18" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur stdDeviation="18"/>
+  </filter>
+  <filter id="shadow" x="-30%" y="-30%" width="170%" height="170%">
+    <feDropShadow dx="0" dy="26" stdDeviation="28" flood-color="#000" flood-opacity=".55"/>
+  </filter>
+  <pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse">
+    <path d="M56 0H0V56" stroke="#77f7c6" stroke-opacity=".09"/>
+  </pattern>
+  <pattern id="tinyGrid" width="30" height="30" patternUnits="userSpaceOnUse">
+    <path d="M30 0H0V30" stroke="#9fffe1" stroke-opacity=".06"/>
+  </pattern>
+</defs>
+
+<rect width="1600" height="1000" fill="#04100d"/>
+<ellipse cx="250" cy="230" rx="430" ry="330" fill="#16a37a" fill-opacity=".16" filter="url(#blur40)"/>
+<ellipse cx="1370" cy="240" rx="250" ry="210" fill="#34d399" fill-opacity=".12" filter="url(#blur40)"/>
+<rect width="1600" height="1000" fill="url(#grid)"/>
+
+<!-- Device -->
+<g transform="translate(120 85) rotate(-2 620 410)" filter="url(#shadow)">
+  <rect x="0" y="0" width="1240" height="785" rx="42" fill="#06100e" stroke="url(#frame)" stroke-width="16"/>
+  <rect x="28" y="30" width="1184" height="720" rx="27" fill="url(#bg)" stroke="#17302b" stroke-width="2"/>
+  <rect x="28" y="30" width="1184" height="720" rx="27" fill="url(#tinyGrid)"/>
+  <rect x="28" y="30" width="1184" height="72" rx="27" fill="#06100f"/>
+  <path d="M28 102H1212" stroke="#1d3934"/>
+
+  <g transform="translate(62 49)">
+    <path d="M0 31L17 0L34 31L25 31L17 15L9 31H0Z" fill="#34d399"/>
+    <text x="48" y="24" fill="#e8fff7" font-family="Inter,Arial,sans-serif" font-size="21" font-weight="700">AlphaFeed</text>
+    <text x="275" y="22" fill="#7d918c" font-family="Inter,Arial,sans-serif" font-size="12">Overview</text>
+    <text x="354" y="22" fill="#7d918c" font-family="Inter,Arial,sans-serif" font-size="12">Traders</text>
+    <text x="433" y="22" fill="#7d918c" font-family="Inter,Arial,sans-serif" font-size="12">Leaderboard</text>
+    <rect x="1022" y="0" width="105" height="32" rx="10" fill="#0c201b" stroke="#2aa77d"/>
+    <circle cx="1042" cy="16" r="7" fill="#34d399"/>
+    <text x="1055" y="21" fill="#d9fff0" font-family="Inter,Arial,sans-serif" font-size="11">MON</text>
+  </g>
+
+  <g transform="translate(74 170)">
+    <text x="0" y="56" fill="#eafff7" font-family="Inter,Arial,sans-serif" font-size="53" font-weight="800">SOCIAL TRADING MEETS</text>
+    <text x="0" y="110" fill="#eafff7" font-family="Inter,Arial,sans-serif" font-size="53" font-weight="800">ON-CHAIN EXECUTION</text>
+    <text x="0" y="147" fill="#9cb2ac" font-family="Inter,Arial,sans-serif" font-size="20">Discover traders, analyze setups, and explore copy workflows.</text>
+
+    <rect x="0" y="180" width="170" height="45" rx="12" fill="#34d399"/>
+    <text x="30" y="209" fill="#04110d" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="800">Launch Terminal</text>
+    <rect x="185" y="180" width="178" height="45" rx="12" fill="#081511" stroke="#34d399" stroke-opacity=".8"/>
+    <text x="217" y="209" fill="#86f7cb" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="700">Explore Traders</text>
+  </g>
+
+  <!-- Live pulse -->
+  <g transform="translate(76 450)">
+    <rect width="815" height="95" rx="18" fill="#081311" fill-opacity=".88" stroke="#25443e"/>
+    <circle cx="26" cy="23" r="5" fill="#34d399"/>
+    <text x="44" y="28" fill="#d9fff2" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="700">AlphaFeed Live Pulse</text>
+    <text x="610" y="28" fill="#67f2ba" font-family="Inter,Arial,sans-serif" font-size="12">Monad Network · Live status</text>
+    <path d="M0 40H815" stroke="#19322d"/>
+    <g transform="translate(20 58)" font-family="Inter,Arial,sans-serif">
+      <text x="0" y="16" fill="#eafff7" font-size="24" font-weight="800">$12.4M+</text>
+      <text x="0" y="35" fill="#6d8580" font-size="11">Volume Copied</text>
+      <text x="180" y="16" fill="#eafff7" font-size="24" font-weight="800">1,280+</text>
+      <text x="180" y="35" fill="#6d8580" font-size="11">Active Traders</text>
+      <text x="360" y="16" fill="#eafff7" font-size="24" font-weight="800">64.2%</text>
+      <text x="360" y="35" fill="#6d8580" font-size="11">Avg Win Rate</text>
+      <text x="540" y="16" fill="#eafff7" font-size="24" font-weight="800">Monad / Kuru</text>
+      <text x="540" y="35" fill="#6d8580" font-size="11">Execution Layer</text>
+    </g>
+  </g>
+
+  <!-- How it works -->
+  <g transform="translate(95 585)">
+    <text x="0" y="0" fill="#e9fff8" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="700">How It Works</text>
+    <g transform="translate(0 24)">
+      <rect width="240" height="120" rx="18" fill="#0b1715" stroke="#2a4741"/>
+      <circle cx="30" cy="31" r="13" fill="#0e2720" stroke="#34d399"/>
+      <text x="24" y="36" fill="#34d399" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="800">1</text>
+      <text x="58" y="36" fill="#e8fff6" font-family="Inter,Arial,sans-serif" font-size="16" font-weight="700">DISCOVER</text>
+      <text x="22" y="66" fill="#7c918b" font-family="Inter,Arial,sans-serif" font-size="12">Find verified traders and</text>
+      <text x="22" y="84" fill="#7c918b" font-family="Inter,Arial,sans-serif" font-size="12">transparent track records.</text>
+    </g>
+    <g transform="translate(260 24)">
+      <rect width="240" height="120" rx="18" fill="#0b1715" stroke="#2a4741"/>
+      <circle cx="30" cy="31" r="13" fill="#0e2720" stroke="#34d399"/>
+      <text x="24" y="36" fill="#34d399" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="800">2</text>
+      <text x="58" y="36" fill="#e8fff6" font-family="Inter,Arial,sans-serif" font-size="16" font-weight="700">ANALYZE</text>
+      <text x="22" y="66" fill="#7c918b" font-family="Inter,Arial,sans-serif" font-size="12">Inspect charts, risk, and</text>
+      <text x="22" y="84" fill="#7c918b" font-family="Inter,Arial,sans-serif" font-size="12">AI-assisted trade context.</text>
+    </g>
+    <g transform="translate(520 24)">
+      <rect width="240" height="120" rx="18" fill="#0b1715" stroke="#2a4741"/>
+      <circle cx="30" cy="31" r="13" fill="#0e2720" stroke="#34d399"/>
+      <text x="24" y="36" fill="#34d399" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="800">3</text>
+      <text x="58" y="36" fill="#e8fff6" font-family="Inter,Arial,sans-serif" font-size="16" font-weight="700">AUTOMATE</text>
+      <text x="22" y="66" fill="#7c918b" font-family="Inter,Arial,sans-serif" font-size="12">Set copy rules with</text>
+      <text x="22" y="84" fill="#7c918b" font-family="Inter,Arial,sans-serif" font-size="12">programmable execution.</text>
+    </g>
+  </g>
+
+  <!-- Floating trade preview -->
+  <g transform="translate(760 120) rotate(-2 270 230)">
+    <rect x="0" y="0" width="460" height="400" rx="26" fill="url(#card)" fill-opacity=".98" stroke="#65dcb2" stroke-opacity=".45" stroke-width="2"/>
+    <rect x="18" y="18" width="424" height="364" rx="18" fill="#06100e" fill-opacity=".7" stroke="#24483f"/>
+    <circle cx="46" cy="50" r="19" fill="#0f3328"/>
+    <path d="M37 54C41 44 52 43 57 50C55 58 44 62 37 54Z" fill="#34d399" fill-opacity=".7"/>
+    <text x="78" y="47" fill="#f1fff9" font-family="Inter,Arial,sans-serif" font-size="16" font-weight="700">Alice Chen</text>
+    <text x="78" y="68" fill="#71847e" font-family="Inter,Arial,sans-serif" font-size="11">@alice_alpha · Verified</text>
+    <rect x="335" y="34" width="80" height="30" rx="10" fill="#0c2a21" stroke="#1a8f6a"/>
+    <text x="349" y="54" fill="#59eab0" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="800">+34.7%</text>
+
+    <text x="32" y="112" fill="#72857f" font-family="Inter,Arial,sans-serif" font-size="12">ROI</text>
+    <text x="32" y="140" fill="#42e4a6" font-family="Inter,Arial,sans-serif" font-size="30" font-weight="800">+34.7%</text>
+    <text x="32" y="164" fill="#72857f" font-family="Inter,Arial,sans-serif" font-size="11">ROI performance</text>
+
+    <rect x="28" y="186" width="404" height="120" rx="14" fill="#07110f" stroke="#17362f"/>
+    <path d="M45 277L71 270L92 280L117 247L140 258L166 220L191 238L213 198L240 224L266 184L288 209L316 170L342 195L371 140L409 154" stroke="#39e4a3" stroke-width="3" fill="none"/>
+    <path d="M45 277L71 270L92 280L117 247L140 258L166 220L191 238L213 198L240 224L266 184L288 209L316 170L342 195L371 140L409 154V306H45Z" fill="url(#glow)" fill-opacity=".12"/>
+    <text x="42" y="202" fill="#70827d" font-family="Inter,Arial,sans-serif" font-size="10">MON · BUY</text>
+    <text x="328" y="202" fill="#c1d3cd" font-family="Inter,Arial,sans-serif" font-size="10">1H</text>
+
+    <rect x="32" y="325" width="396" height="40" rx="12" fill="#34d399"/>
+    <text x="181" y="351" fill="#03100c" font-family="Inter,Arial,sans-serif" font-size="15" font-weight="800">Copy Trade</text>
+  </g>
+</g>
+
+<path d="M55 935H1545" stroke="#255e4d" stroke-opacity=".28"/>
+<circle cx="1450" cy="935" r="7" fill="#34d399" fill-opacity=".8" filter="url(#blur18)"/>
+<circle cx="1450" cy="935" r="3" fill="#34d399"/>
+</svg>

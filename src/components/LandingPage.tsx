@@ -98,7 +98,7 @@ export default function LandingPage({onLaunchApp,onExploreTraders}:Props){
       @keyframes afGrid{0%,100%{opacity:.3}50%{opacity:.46}}
       .af-float{animation:afFloat 5s ease-in-out infinite}.af-slow{animation:afSlow 8s ease-in-out infinite}.af-glow{animation:afGlow 2.3s ease-in-out infinite}.af-scan{animation:afScan 7s linear infinite}.af-code{animation:afCode 12s linear infinite}.af-grid{animation:afGrid 7s ease-in-out infinite}.af-shimmer{animation:afShimmer 2.4s linear infinite}
       @media (prefers-reduced-motion:reduce){.af-float,.af-slow,.af-glow,.af-scan,.af-code,.af-grid,.af-shimmer{animation:none!important}}
-    '}</style>
+    `}</style>
 
     <div className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
       <div className="absolute inset-0 bg-zinc-950"/>

@@ -5,6 +5,7 @@ import AlphaInsights from './components/AlphaInsights'
 import CopyDrawer from './components/CopyDrawer'
 const LandingPage = lazy(() => import('./components/LandingPage'))
 import LiveTicker from './components/LiveTicker'
+import CopyDock from './components/CopyDock'
 import PerformanceModeToggle from './components/PerformanceModeToggle'
 import { usePerformanceMode } from './hooks/usePerformanceMode'
 import {
@@ -489,6 +490,8 @@ export default function App() {
 
         <RightRail onProfile={setProfileTrader} featuredPost={feed[0] ?? initialPosts[0]} />
       </main>
+
+      <CopyDock feed={feed} onCopy={openCopy} />
 
       {copyTrader && <CopyDrawer trader={copyTrader} post={copyPost} onClose={() => { setCopyTrader(null); setCopyPost(null) }} onSaved={() => showToast('Copy rule saved')} onSimulateFill={() => showToast('Order filled on Kuru · prototype')} />}
       {profileTrader && <ProfileModal trader={profileTrader} onClose={() => setProfileTrader(null)} onCopy={(trader) => { setProfileTrader(null); openCopy(trader) }} />}

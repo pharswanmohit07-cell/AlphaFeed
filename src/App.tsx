@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import InteractiveTradeChart from './components/InteractiveTradeChart'
 import OnChainDetails from './components/OnChainDetails'
 import AlphaInsights from './components/AlphaInsights'
@@ -369,7 +369,12 @@ function HomeFeed({ feed, setFeed, onCopy, onProfile, onCompose, viewMode, setVi
 }
 
 export default function App() {
-  const [showLanding, setShowLanding] = useState(true)
+  const getRoute = () => {
+    const path = window.location.pathname.replace(/\\/+$/, '') || '/'
+    return path === '/app' || path === '/feed' ? path : '/'
+  }
+
+  const [route, setRoute] = useState(getRoute)
   const [active, setActive] = useState('Home')
   const [mobileOpen, setMobileOpen] = useState(false)
   const [walletOpen, setWalletOpen] = useState(false)
@@ -388,12 +393,34 @@ export default function App() {
   const showToast = (message: string) => { setToast(message); window.setTimeout(() => setToast(null), 3200) }
   const publish = (text: string) => { setFeed([{ id: String(Date.now()), trader: traders[0], time: 'now', side: 'BUY', token: 'MON', pair: 'MON / USDC', entry: '$0.4208', target: '$0.5100', stop: '$0.3810', text, likes: 0, comments: 0, chart: 'up', confidence: 'AI pending' }, ...feed]); setComposerOpen(false); setActive('Home') }
 
-  if (showLanding) {
+  const navigate = (path: '/app' | '/feed' | '/') => {
+    window.history.pushState({}, '', path)
+    setRoute(path)
+  }
+
+  useEffect(() => {
+    const handlePopState = () => setRoute(getRoute())
+    const normalized = getRoute()
+
+    if (window.location.pathname !== normalized) {
+      window.history.replaceState({}, '', normalized)
+    }
+
+    setRoute(normalized)
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
+
+  if (route === '/') {
     return (
       <LandingPage
-        onLaunchApp={() => setShowLanding(false)}
+        onLaunchApp={() => {
+          navigate('/app')
+          setActive('Home')
+          setViewMode('social')
+        }}
         onExploreTraders={() => {
-          setShowLanding(false)
+          navigate('/app')
           setActive('Explore')
         }}
       />

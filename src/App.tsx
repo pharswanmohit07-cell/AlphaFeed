@@ -1,4 +1,8 @@
 import { useMemo, useState } from 'react'
+import InteractiveTradeChart from './components/InteractiveTradeChart'
+import OnChainDetails from './components/OnChainDetails'
+import AlphaInsights from './components/AlphaInsights'
+import CopyDrawer from './components/CopyDrawer'
 import {
   Activity,
   ArrowUpRight,
@@ -29,6 +33,10 @@ import {
   Wallet,
   X,
   Zap,
+  ChartCandlestick,
+  Rows3,
+  SlidersHorizontal,
+  ReceiptText,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -59,6 +67,9 @@ type Post = {
   comments: number
   chart: 'up' | 'down'
   confidence: string
+  txHash?: string
+  block?: number
+  status?: 'Active' | 'TP1 Hit' | 'Stopped Out' | 'Canceled'
 }
 
 const traders: Trader[] = [
@@ -145,27 +156,10 @@ function MiniChart({ down = false }: { down?: boolean }) {
 }
 
 function ChartCard({ post }: { post: Post }) {
-  const points = post.chart === 'up'
-    ? '0,168 42,158 88,174 134,136 176,146 226,116 267,127 315,92 362,103 406,70 462,76 522,47 600,31'
-    : '0,58 46,67 92,48 138,68 182,86 232,76 281,104 331,93 382,120 432,110 484,139 536,126 600,145'
-  return (
-    <div className="relative h-56 overflow-hidden bg-[#080d12]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(116,242,124,.10),transparent_28%),radial-gradient(circle_at_88%_75%,rgba(99,216,255,.06),transparent_30%)]" />
-      <div className="absolute inset-x-5 top-[34%] border-t border-dashed border-slate-800" />
-      <div className="absolute inset-x-5 top-[68%] border-t border-dashed border-slate-900" />
-      <svg viewBox="0 0 600 220" className="absolute inset-0 h-full w-full" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id={'fill-' + post.id} x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopColor="#74f27c" stopOpacity="0.18" /><stop offset="100%" stopColor="#74f27c" stopOpacity="0" /></linearGradient>
-        </defs>
-        <path d={'M 0 ' + (post.chart === 'up' ? 168 : 58) + ' L ' + (post.chart === 'up' ? '42 158 88 174 134 136 176 146 226 116 267 127 315 92 362 103 406 70 462 76 522 47 600 31' : '46 67 92 48 138 68 182 86 232 76 281 104 331 93 382 120 432 110 484 139 536 126 600 145') + ' L 600 220 L 0 220 Z'} fill={'url(#fill-' + post.id + ')'} />
-        <polyline fill="none" stroke={post.chart === 'up' ? '#74f27c' : '#63d8ff'} strokeWidth="4" points={points} />
-      </svg>
-      <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-[10px] text-slate-400 backdrop-blur"><Radio size={11} className="text-accent" /> Live market</div>
-      <div className="absolute right-4 top-4 rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-[10px] text-slate-400 backdrop-blur">{post.confidence} confidence</div>
-      <div className="absolute bottom-3 left-4 text-[11px] text-slate-600">1H · Kuru</div>
-      <div className="absolute bottom-3 right-4 text-[11px] text-slate-600">on-chain idea</div>
-    </div>
-  )
+  const entry = Number(post.entry.replace(/[$,]/g, ''))
+  const target = Number(post.target.replace(/[$,]/g, ''))
+  const stop = Number(post.stop.replace(/[$,]/g, ''))
+  return <InteractiveTradeChart token={post.token} side={post.side} entry={entry} target={target} stop={stop} />
 }
 
 function Stat({ label, value, positive = false }: { label: string; value: string; positive?: boolean }) {
@@ -175,44 +169,42 @@ function Stat({ label, value, positive = false }: { label: string; value: string
 function PostCard({ post, onCopy, onProfile }: { post: Post; onCopy: (trader: Trader, post: Post) => void; onProfile: (trader: Trader) => void }) {
   const [liked, setLiked] = useState(false)
   const [saved, setSaved] = useState(false)
+  const entry = Number(post.entry.replace(/[$,]/g, ''))
+  const target = Number(post.target.replace(/[$,]/g, ''))
+  const stop = Number(post.stop.replace(/[$,]/g, ''))
+  const txHash = post.txHash ?? '0x7a9c31b2f4d18e9c0a61d2f3b8e7c41a9d0f12b5e6c8a3d7f4b1e9c2a6d8f0'
   return (
-    <article className="group border-b border-line px-4 py-6 sm:px-6">
+    <article className="group border-b border-line px-4 py-6 transition hover:bg-white/[0.008] sm:px-6">
       <div className="flex gap-3.5">
         <button onClick={() => onProfile(post.trader)} className="transition hover:scale-105"><Avatar trader={post.trader} /></button>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 text-sm">
             <button onClick={() => onProfile(post.trader)} className="font-semibold text-white hover:underline">{post.trader.name}</button>
-            <span className="hidden text-slate-600 sm:inline">{post.trader.handle}</span>
-            <span className="text-slate-700">·</span>
-            <span className="text-slate-600">{post.time}</span>
-            <span className="hidden items-center gap-1 rounded-full border border-emerald-900/70 bg-emerald-500/[0.04] px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] text-accent sm:flex"><ShieldCheck size={11} />verified</span>
-            <button className="ml-auto rounded-lg p-1.5 text-slate-600 hover:bg-white/[0.04] hover:text-slate-300" aria-label="More"><MoreHorizontal size={17} /></button>
+            <span className="hidden text-slate-600 sm:inline">{post.trader.handle}</span><span className="text-slate-700">·</span><span className="text-slate-600">{post.time}</span>
+            <span className="hidden items-center gap-1 rounded-full border border-emerald-900/70 bg-emerald-500/[0.04] px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] text-accent sm:flex"><ShieldCheck size={11}/>verified</span>
+            <button className="ml-auto rounded-lg p-1.5 text-slate-600 hover:bg-white/[0.04] hover:text-slate-300" aria-label="More"><MoreHorizontal size={17}/></button>
           </div>
-
           <p className="mt-3 max-w-3xl text-[15px] leading-7 text-slate-300">{post.text}</p>
-
-          <div className="mt-4 overflow-hidden rounded-2xl border border-line bg-panel shadow-[0_16px_50px_rgba(0,0,0,.20)] transition group-hover:border-slate-700">
-            <div className="grid grid-cols-4 gap-3 border-b border-line px-4 py-3.5">
-              <Stat label="Asset" value={post.token} />
-              <Stat label="Side" value={post.side} positive={post.side === 'BUY'} />
-              <Stat label="Entry" value={post.entry} />
-              <Stat label="Target" value={post.target} positive />
+          <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-800/60 bg-zinc-900/80 shadow-[0_16px_50px_rgba(0,0,0,.20)] transition group-hover:border-slate-700">
+            <div className="grid grid-cols-4 gap-3 border-b border-zinc-800/60 px-4 py-3.5">
+              <Stat label="Asset" value={post.token}/><Stat label="Side" value={post.side} positive={post.side==='BUY'}/><Stat label="Entry" value={post.entry}/><Stat label="Target" value={post.target} positive/>
             </div>
-            <ChartCard post={post} />
-            <div className="grid grid-cols-3 gap-3 border-t border-line bg-black/10 px-4 py-3.5 text-xs">
-              <div><span className="text-slate-600">Stop</span><span className="ml-2 text-white">{post.stop}</span></div>
+            <ChartCard post={post}/>
+            <div className="grid grid-cols-3 gap-3 border-t border-zinc-800/60 bg-black/10 px-4 py-3.5 text-xs">
+              <div><span className="text-slate-600">Stop</span><span className="ml-2 text-rose-300">{post.stop}</span></div>
               <div><span className="text-slate-600">Pair</span><span className="ml-2 text-white">{post.pair}</span></div>
-              <div className="text-right"><span className="text-slate-600">Status</span><span className="ml-2 text-accent">Live</span></div>
+              <div className="text-right"><span className="text-slate-600">Status</span><span className="ml-2 text-accent">{post.status ?? 'Active'}</span></div>
             </div>
+            <OnChainDetails txHash={txHash} block={post.block ?? 105200008} dex="Kuru" status={post.status ?? 'Active'}/>
           </div>
-
-          <div className="mt-3 flex items-center gap-5 text-xs text-slate-600">
-            <button onClick={() => setLiked((value) => !value)} className={'flex items-center gap-1.5 transition hover:text-slate-300 ' + (liked ? 'text-rose-400' : '')}><Heart size={15} fill={liked ? 'currentColor' : 'none'} />{post.likes + (liked ? 1 : 0)}</button>
-            <button className="flex items-center gap-1.5 hover:text-slate-300"><MessageCircle size={15} />{post.comments}</button>
-            <button onClick={() => setSaved((value) => !value)} className={'flex items-center gap-1.5 hover:text-slate-300 ' + (saved ? 'text-amber-300' : '')}><Star size={14} fill={saved ? 'currentColor' : 'none'} />{saved ? 'Saved' : 'Save'}</button>
-            <button className="hidden items-center gap-1.5 hover:text-slate-300 sm:flex"><Copy size={14} />Share</button>
-            <button onClick={() => onCopy(post.trader, post)} className="ml-auto inline-flex items-center gap-1.5 rounded-xl bg-accent px-3.5 py-2 font-bold text-ink shadow-[0_0_22px_rgba(116,242,124,.12)] transition hover:brightness-105"><Copy size={14} />Copy Trade</button>
+          <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-slate-600">
+            <button onClick={()=>setLiked(v=>!v)} className={'flex items-center gap-1.5 hover:text-slate-300 '+(liked?'text-rose-400':'')}><Heart size={15} fill={liked?'currentColor':'none'}/>{post.likes+(liked?1:0)}</button>
+            <button className="flex items-center gap-1.5 hover:text-slate-300"><MessageCircle size={15}/>{post.comments}</button>
+            <button onClick={()=>setSaved(v=>!v)} className={'flex items-center gap-1.5 hover:text-slate-300 '+(saved?'text-amber-300':'')}><Star size={14} fill={saved?'currentColor':'none'}/>{saved?'Saved':'Save'}</button>
+            <button className="hidden items-center gap-1.5 hover:text-slate-300 sm:flex"><Copy size={14}/>Share</button>
+            <button onClick={()=>onCopy(post.trader,post)} className="ml-auto inline-flex items-center gap-1.5 rounded-xl bg-accent px-3.5 py-2 font-bold text-ink shadow-[0_0_22px_rgba(116,242,124,.12)] transition hover:brightness-105"><Copy size={14}/>Copy Trade</button>
           </div>
+          <div className="mt-3 xl:hidden"><AlphaInsights entry={entry} target={target} stop={stop} side={post.side} token={post.token}/></div>
         </div>
       </div>
     </article>
@@ -319,20 +311,19 @@ function Sidebar({ active, setActive }: { active: string; setActive: (value: str
   )
 }
 
-function RightRail({ onProfile }: { onProfile: (trader: Trader) => void }) {
-  return (
-    <aside className="hidden min-h-[calc(100vh-64px)] p-5 xl:block">
-      <div className="flex items-center justify-between"><div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-slate-500"><TrendingUp size={15} />Market pulse</div><span className="text-[10px] text-slate-600">Live</span></div>
-      <div className="mt-4 space-y-2">{trendings.map((item) => <div key={item.token} className="rounded-2xl border border-line bg-panel p-3.5 transition hover:border-slate-700"><div className="flex items-center justify-between"><div className="flex items-center gap-2"><div className="grid size-8 place-items-center rounded-lg bg-white/[0.04] text-[10px] font-bold">{item.token[0]}</div><div><div className="text-sm font-semibold">{item.token}</div><div className="text-[10px] text-slate-600">24h volume {item.volume}</div></div></div><span className="text-xs font-semibold text-accent">{item.change}</span></div><div className="mt-2 flex items-end justify-between"><span className="text-sm text-slate-300">{item.price}</span><span className="w-28"><MiniChart /></span></div></div>)}</div>
-
-      <div className="mt-8 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.15em] text-slate-500"><span>Who to follow</span><button className="text-[10px] text-slate-600 hover:text-slate-300">View all</button></div>
-      <div className="mt-3 space-y-2">{traders.slice(0,3).map((trader) => <button key={trader.id} onClick={() => onProfile(trader)} className="flex w-full items-center gap-3 rounded-xl border border-line bg-panel p-3 text-left hover:border-slate-700"><Avatar trader={trader} small /><div className="min-w-0 flex-1"><div className="truncate text-sm font-semibold">{trader.name}</div><div className="text-xs text-slate-600">{trader.handle}</div></div><ArrowUpRight size={14} className="text-slate-700" /></button>)}</div>
-
-      <div className="mt-8 rounded-2xl border border-line bg-panel p-4"><div className="flex items-center gap-2 text-xs font-semibold text-slate-300"><Activity size={14} className="text-accent" />Live activity</div><div className="mt-3 space-y-3">{[['Alice Chen','bought MON','$250'],['David Rao','sold ETH','$1,200'],['Sarah Malik','bought BTC','$680']].map(([name,action,amount],i) => <div key={name} className="flex items-start gap-2.5"><div className="mt-1 size-1.5 rounded-full bg-accent" /><div className="min-w-0 text-xs leading-5 text-slate-500"><span className="text-slate-300">{name}</span> {action} <span className="text-slate-300">{amount}</span><div className="text-[10px] text-slate-700">{i + 1} min ago · verified execution</div></div></div>)}</div></div>
-    </aside>
-  )
+function RightRail({ onProfile, featuredPost }: { onProfile: (trader: Trader) => void; featuredPost: Post }) {
+  const entry=Number(featuredPost.entry.replace(/[$,]/g,''))
+  const target=Number(featuredPost.target.replace(/[$,]/g,''))
+  const stop=Number(featuredPost.stop.replace(/[$,]/g,''))
+  return <aside className="hidden min-h-[calc(100vh-64px)] p-5 xl:block">
+    <div className="flex items-center justify-between"><div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-slate-500"><TrendingUp size={15}/>Market pulse</div><span className="text-[10px] text-accent">Live</span></div>
+    <div className="mt-4 space-y-2">{trendings.map(item=><div key={item.token} className="rounded-2xl border border-zinc-800/60 bg-zinc-900/80 p-3.5 hover:border-slate-700"><div className="flex items-center justify-between"><div className="flex items-center gap-2"><div className="grid size-8 place-items-center rounded-lg bg-white/[0.04] text-[10px] font-bold">{item.token[0]}</div><div><div className="text-sm font-semibold">{item.token}</div><div className="text-[10px] text-slate-600">24h volume {item.volume}</div></div></div><span className="text-xs font-semibold text-accent">{item.change}</span></div><div className="mt-2 flex items-end justify-between"><span className="text-sm text-slate-300">{item.price}</span><span className="w-28"><MiniChart/></span></div></div>)}</div>
+    <div className="mt-6"><AlphaInsights entry={entry} target={target} stop={stop} side={featuredPost.side} token={featuredPost.token}/></div>
+    <div className="mt-8 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.15em] text-slate-500"><span>Who to follow</span><button className="text-[10px] text-slate-600">View all</button></div>
+    <div className="mt-3 space-y-2">{traders.slice(0,3).map(trader=><button key={trader.id} onClick={()=>onProfile(trader)} className="flex w-full items-center gap-3 rounded-xl border border-zinc-800/60 bg-zinc-900/80 p-3 text-left hover:border-slate-700"><Avatar trader={trader} small/><div className="min-w-0 flex-1"><div className="truncate text-sm font-semibold">{trader.name}</div><div className="text-xs text-slate-600">{trader.handle}</div></div><ArrowUpRight size={14} className="text-slate-700"/></button>)}</div>
+    <div className="mt-8 rounded-2xl border border-zinc-800/60 bg-zinc-900/80 p-4"><div className="flex items-center gap-2 text-xs font-semibold text-slate-300"><Activity size={14} className="text-accent"/>Live activity</div><div className="mt-3 space-y-3">{[['Alice Chen','bought MON','$250'],['David Rao','sold ETH','$1,200'],['Sarah Malik','bought BTC','$680']].map(([name,action,amount],i)=><div key={name} className="flex items-start gap-2.5"><div className="mt-1 size-1.5 rounded-full bg-accent"/><div className="text-xs leading-5 text-slate-500"><span className="text-slate-300">{name}</span> {action} <span className="text-slate-300">{amount}</span><div className="text-[10px] text-slate-700">{i+1} min ago · verified execution</div></div></div>)}</div></div>
+  </aside>
 }
-
 function Explore({ onCopy, onProfile }: { onCopy: (trader: Trader) => void; onProfile: (trader: Trader) => void }) {
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState('Top ROI')
@@ -349,9 +340,31 @@ function Portfolio() {
   return <div className="p-4 sm:p-6"><div className="grid gap-4 lg:grid-cols-[1.25fr_.75fr]"><div className="rounded-2xl border border-line bg-panel p-5"><div className="flex items-start justify-between"><div><div className="text-xs uppercase tracking-wider text-slate-600">Total portfolio</div><div className="mt-2 text-3xl font-semibold tracking-tight">$2,481.52</div><div className="mt-1 text-sm text-accent">+$184.23 (+8.02%)</div></div><div className="rounded-xl border border-line bg-black/10 px-3 py-2 text-right text-xs"><div className="text-slate-600">24H</div><div className="mt-1 text-accent">+2.18%</div></div></div><div className="mt-5 flex items-center gap-5 text-xs text-slate-500"><span>Available <b className="text-slate-300">$1,121.22</b></span><span>Positions <b className="text-slate-300">$1,360.30</b></span></div><div className="mt-6 h-44 rounded-xl bg-[#0a0e13] p-2"><svg viewBox="0 0 600 180" className="h-full w-full" preserveAspectRatio="none"><polyline fill="none" stroke="#74f27c" strokeWidth="4" points="0,140 55,137 110,143 163,127 218,132 272,109 325,119 377,91 429,100 483,73 536,79 600,38" /></svg></div></div><div className="rounded-2xl border border-line bg-panel p-5"><div className="flex items-center gap-2 font-semibold"><CircleDollarSign size={17} className="text-accent" />Capital overview</div><div className="mt-5 space-y-4">{[['Available','45%'],['MON','22%'],['ETH','21%'],['BTC','12%']].map(([a,b]) => <div key={a}><div className="flex justify-between text-xs"><span className="text-slate-500">{a}</span><span className="text-slate-300">{b}</span></div><div className="mt-2 h-1.5 rounded-full bg-slate-800"><div className={'h-full rounded-full ' + (a === 'Available' ? 'bg-slate-500' : 'bg-accent')} style={{width:b}} /></div></div>)}</div></div></div><div className="mt-4 grid gap-3 sm:grid-cols-3">{[['MON','$540.20','+12.4%'],['ETH','$820.10','+5.7%'],['USDC','$1,121.22','—']].map(([a,b,c]) => <div key={a} className="rounded-2xl border border-line bg-panel p-4"><div className="text-xs text-slate-600">{a}</div><div className="mt-2 text-lg font-semibold">{b}</div><div className="mt-1 text-xs text-accent">{c}</div></div>)}</div><div className="mt-5 rounded-2xl border border-line bg-panel p-5"><div className="flex items-center gap-2 font-semibold"><Copy size={15} />Copy trading</div><div className="mt-4 grid gap-2 sm:grid-cols-3">{traders.slice(0,3).map((t) => <div key={t.id} className="flex items-center gap-3 rounded-xl border border-line bg-[#0a0e13] px-3 py-3"><Avatar trader={t} small /><div><div className="text-sm font-medium">{t.name}</div><div className="text-xs text-slate-600">Max $50 per trade</div></div><span className="ml-auto rounded-full bg-accent/10 px-2 py-1 text-[10px] text-accent">ON</span></div>)}</div></div></div>
 }
 
-function HomeFeed({ feed, setFeed, onCopy, onProfile, onCompose }: { feed: Post[]; setFeed: (posts: Post[]) => void; onCopy: (trader: Trader, post: Post) => void; onProfile: (trader: Trader) => void; onCompose: () => void }) {
+function TerminalView({ feed, onCopy }: { feed: Post[]; onCopy: (trader: Trader, post: Post) => void }) {
+  return <div className="overflow-x-auto p-3 sm:p-4">
+    <div className="min-w-[760px] overflow-hidden rounded-2xl border border-zinc-800/60 bg-zinc-900/80">
+      <div className="grid grid-cols-[1.1fr_70px_110px_110px_110px_100px] gap-3 border-b border-zinc-800/60 px-4 py-3 text-[9px] uppercase tracking-[0.16em] text-slate-600"><span>Market / Trader</span><span>Side</span><span>Entry</span><span>Target</span><span>Stop</span><span>Action</span></div>
+      {feed.map(post=><div key={post.id} className="grid grid-cols-[1.1fr_70px_110px_110px_110px_100px] items-center gap-3 border-b border-zinc-800/60 px-4 py-3 text-xs last:border-0 hover:bg-white/[0.02]">
+        <div className="flex items-center gap-2.5"><Avatar trader={post.trader} small/><div><div className="font-medium text-slate-200">{post.token}/USDC</div><div className="text-[10px] text-slate-600">{post.trader.name} · {post.time}</div></div></div>
+        <span className={post.side==='BUY'?'text-accent':'text-rose-300'}>{post.side}</span><span>{post.entry}</span><span className="text-accent">{post.target}</span><span className="text-rose-300">{post.stop}</span>
+        <button onClick={()=>onCopy(post.trader,post)} className="rounded-lg bg-accent px-2.5 py-2 text-[10px] font-bold text-ink hover:brightness-105">Quick Copy</button>
+      </div>)}
+    </div>
+  </div>
+}
+
+function HomeFeed({ feed, setFeed, onCopy, onProfile, onCompose, viewMode, setViewMode }: { feed: Post[]; setFeed: (posts: Post[]) => void; onCopy: (trader: Trader, post: Post) => void; onProfile: (trader: Trader) => void; onCompose: () => void; viewMode: 'social'|'terminal'; setViewMode: (mode: 'social'|'terminal') => void }) {
   const [tab, setTab] = useState<'For You'|'Following'|'Latest'>('For You')
-  return <><div className="border-b border-line bg-[radial-gradient(circle_at_15%_0%,rgba(116,242,124,.08),transparent_34%),linear-gradient(180deg,rgba(255,255,255,.015),transparent)] px-4 py-5 sm:px-6"><div className="flex items-start justify-between gap-4"><div><div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-accent"><span className="size-1.5 rounded-full bg-accent" />Live social market</div><h1 className="mt-2 text-2xl font-semibold tracking-tight">Your Feed</h1><p className="mt-1 text-xs text-slate-500">Trading ideas, verified execution and trader reputation in one place.</p></div><button onClick={onCompose} className="hidden items-center gap-2 rounded-xl bg-accent px-3.5 py-2.5 text-sm font-bold text-ink md:flex"><Plus size={16} />Post idea</button></div><div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4"><div className="rounded-xl border border-line bg-black/10 p-3"><div className="text-[10px] uppercase text-slate-600">Active traders</div><div className="mt-1 font-semibold">1,284</div></div><div className="rounded-xl border border-line bg-black/10 p-3"><div className="text-[10px] uppercase text-slate-600">Live ideas</div><div className="mt-1 font-semibold">328</div></div><div className="hidden rounded-xl border border-line bg-black/10 p-3 sm:block"><div className="text-[10px] uppercase text-slate-600">Copied today</div><div className="mt-1 font-semibold">$8.4M</div></div><div className="hidden rounded-xl border border-line bg-black/10 p-3 sm:block"><div className="text-[10px] uppercase text-slate-600">Network</div><div className="mt-1 font-semibold">Monad</div></div></div></div><div className="flex border-b border-line px-4 sm:px-6">{(['For You','Following','Latest'] as const).map((item) => <button key={item} onClick={() => setTab(item)} className={'relative px-4 py-3 text-sm ' + (tab === item ? 'font-medium text-white' : 'text-slate-500')}>{item}{tab === item && <span className="absolute inset-x-4 bottom-0 h-0.5 rounded-full bg-accent" />}</button>)}</div>{feed.map((post) => <PostCard key={post.id} post={post} onCopy={onCopy} onProfile={onProfile} />)}{feed.length === 0 && <div className="p-12 text-center text-sm text-slate-500">No ideas found.</div>}</>
+  return <><div className="border-b border-line bg-[radial-gradient(circle_at_15%_0%,rgba(116,242,124,.08),transparent_34%),linear-gradient(180deg,rgba(255,255,255,.015),transparent)] px-4 py-5 sm:px-6">
+    <div className="flex items-start justify-between gap-4"><div><div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-accent"><span className="size-1.5 rounded-full bg-accent"/>Live social market</div><h1 className="mt-2 text-2xl font-semibold tracking-tight">Your Feed</h1><p className="mt-1 text-xs text-slate-500">Trading ideas, verified execution and trader reputation in one place.</p></div>
+      <div className="flex items-center gap-2"><div className="hidden items-center rounded-xl border border-zinc-800/60 bg-zinc-900/80 p-1 sm:flex"><button onClick={()=>setViewMode('social')} className={'flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[10px] '+(viewMode==='social'?'bg-white/[0.08] text-white':'text-slate-600')}><Rows3 size={13}/>Social</button><button onClick={()=>setViewMode('terminal')} className={'flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[10px] '+(viewMode==='terminal'?'bg-accent text-ink':'text-slate-600')}><ChartCandlestick size={13}/>Terminal</button></div><button onClick={onCompose} className="hidden items-center gap-2 rounded-xl bg-accent px-3.5 py-2.5 text-sm font-bold text-ink md:flex"><Plus size={16}/>Post idea</button></div>
+    </div>
+    <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4"><div className="rounded-xl border border-line bg-black/10 p-3"><div className="text-[10px] uppercase text-slate-600">Active traders</div><div className="mt-1 font-semibold">1,284</div></div><div className="rounded-xl border border-line bg-black/10 p-3"><div className="text-[10px] uppercase text-slate-600">Live ideas</div><div className="mt-1 font-semibold">328</div></div><div className="hidden rounded-xl border border-line bg-black/10 p-3 sm:block"><div className="text-[10px] uppercase text-slate-600">Copied today</div><div className="mt-1 font-semibold">$8.4M</div></div><div className="hidden rounded-xl border border-line bg-black/10 p-3 sm:block"><div className="text-[10px] uppercase text-slate-600">Network</div><div className="mt-1 font-semibold">Monad</div></div></div>
+  </div>
+  {viewMode==='social'&&<div className="flex border-b border-line px-4 sm:px-6">{(['For You','Following','Latest'] as const).map(item=><button key={item} onClick={()=>setTab(item)} className={'relative px-4 py-3 text-sm '+(tab===item?'font-medium text-white':'text-slate-500')}>{item}{tab===item&&<span className="absolute inset-x-4 bottom-0 h-0.5 rounded-full bg-accent"/>}</button>)}</div>}
+  {viewMode==='social'?feed.map(post=><PostCard key={post.id} post={post} onCopy={onCopy} onProfile={onProfile}/>):<TerminalView feed={feed} onCopy={onCopy}/>}
+  {feed.length===0&&<div className="p-12 text-center text-sm text-slate-500">No ideas found.</div>}
+</>
 }
 
 export default function App() {
@@ -365,9 +378,12 @@ export default function App() {
   const [profileTrader, setProfileTrader] = useState<Trader | null>(null)
   const [composerOpen, setComposerOpen] = useState(false)
   const [feed, setFeed] = useState(initialPosts)
+  const [viewMode, setViewMode] = useState<'social' | 'terminal'>('social')
+  const [toast, setToast] = useState<string | null>(null)
 
   const title = useMemo(() => ({ Home: 'Your Feed', Explore: 'Discover Traders', Leaderboard: 'Top Traders', Portfolio: 'Your Portfolio' }[active] ?? active), [active])
   const openCopy = (trader: Trader, post?: Post) => { setCopyTrader(trader); setCopyPost(post ?? null) }
+  const showToast = (message: string) => { setToast(message); window.setTimeout(() => setToast(null), 3200) }
   const publish = (text: string) => { setFeed([{ id: String(Date.now()), trader: traders[0], time: 'now', side: 'BUY', token: 'MON', pair: 'MON / USDC', entry: '$0.4208', target: '$0.5100', stop: '$0.3810', text, likes: 0, comments: 0, chart: 'up', confidence: 'AI pending' }, ...feed]); setComposerOpen(false); setActive('Home') }
 
   return (
@@ -391,18 +407,19 @@ export default function App() {
         {mobileOpen && <div className="absolute left-0 top-16 z-30 w-64 border-r border-b border-line bg-ink p-4 shadow-xl lg:hidden"><nav className="space-y-1">{navigationItems.map(({label,icon:Icon}) => <button key={label} onClick={() => { setActive(label); setMobileOpen(false) }} className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm text-slate-300"><Icon size={18} />{label}</button>)}</nav></div>}
 
         <section className="min-w-0 border-r border-line">
-          {active === 'Home' && <HomeFeed feed={feed} setFeed={setFeed} onCopy={openCopy} onProfile={setProfileTrader} onCompose={() => setComposerOpen(true)} />}
+          {active === 'Home' && <HomeFeed feed={feed} setFeed={setFeed} onCopy={openCopy} onProfile={setProfileTrader} onCompose={() => setComposerOpen(true)} viewMode={viewMode} setViewMode={setViewMode} />}
           {active === 'Explore' && <><div className="border-b border-line px-4 py-5 sm:px-6"><h1 className="text-xl font-semibold">{title}</h1><p className="mt-1 text-xs text-slate-500">Discover verified traders and compare their on-chain performance.</p></div><Explore onCopy={(trader) => openCopy(trader)} onProfile={setProfileTrader} /></>}
           {active === 'Leaderboard' && <><div className="border-b border-line px-4 py-5 sm:px-6"><h1 className="text-xl font-semibold">{title}</h1><p className="mt-1 text-xs text-slate-500">Find consistent performers instead of loudest voices.</p></div><Leaderboard onProfile={setProfileTrader} /></>}
           {active === 'Portfolio' && <><div className="border-b border-line px-4 py-5 sm:px-6"><h1 className="text-xl font-semibold">{title}</h1><p className="mt-1 text-xs text-slate-500">Track positions and copy-trading activity from one place.</p></div><Portfolio /></>}
         </section>
 
-        <RightRail onProfile={setProfileTrader} />
+        <RightRail onProfile={setProfileTrader} featuredPost={feed[0] ?? initialPosts[0]} />
       </main>
 
-      {copyTrader && <CopyModal trader={copyTrader} post={copyPost} onClose={() => { setCopyTrader(null); setCopyPost(null) }} />}
+      {copyTrader && <CopyDrawer trader={copyTrader} post={copyPost} onClose={() => { setCopyTrader(null); setCopyPost(null) }} onSaved={() => showToast('Copy rule saved')} onSimulateFill={() => showToast('Order filled on Kuru · prototype')} />}
       {profileTrader && <ProfileModal trader={profileTrader} onClose={() => setProfileTrader(null)} onCopy={(trader) => { setProfileTrader(null); openCopy(trader) }} />}
       {composerOpen && <Composer onClose={() => setComposerOpen(false)} onPublish={publish} />}
+      {toast && <div className="fixed bottom-5 right-5 z-[70] flex items-center gap-3 rounded-2xl border border-emerald-900/60 bg-zinc-950/95 px-4 py-3 text-sm shadow-2xl backdrop-blur"><span className="grid size-7 place-items-center rounded-full bg-accent/10 text-accent"><ReceiptText size={14}/></span><div><div className="font-medium text-white">{toast}</div><div className="text-[10px] text-slate-600">AlphaFeed simulated execution feedback</div></div></div>}
     </div>
   )
 }

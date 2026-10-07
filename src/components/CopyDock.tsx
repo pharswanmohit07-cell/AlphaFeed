@@ -4,14 +4,33 @@ import { Copy, Zap } from 'lucide-react'
 type Trader = {
   id: string
   name: string
+  handle: string
+  followers: string
+  roi: string
+  winRate: string
+  avatar: string
+  accent: string
+  specialty: string
 }
 
 type Post = {
   id: string
   trader: Trader
-  token: string
+  time: string
   side: 'BUY' | 'SELL'
+  token: string
+  pair: string
   entry: string
+  target: string
+  stop: string
+  text: string
+  likes: number
+  comments: number
+  chart: 'up' | 'down'
+  confidence: string
+  txHash?: string
+  block?: number
+  status?: 'Active' | 'TP1 Hit' | 'Stopped Out' | 'Canceled'
 }
 
 type Props = {

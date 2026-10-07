@@ -8,12 +8,56 @@
   background: #07090d;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 * { box-sizing: border-box; }
-html { background: #07090d; }
-body { margin: 0; min-width: 320px; background: #07090d; }
-button, input, textarea { font: inherit; }
+
+html {
+  background: #07090d;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(116, 242, 124, 0.045), transparent 30%),
+    radial-gradient(circle at 88% 20%, rgba(99, 216, 255, 0.035), transparent 28%),
+    #07090d;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button, input, textarea, select {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #07090d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1a222c;
+  border: 2px solid #07090d;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #273340;
+}
 
 ::selection {
   background: rgba(116, 242, 124, 0.24);

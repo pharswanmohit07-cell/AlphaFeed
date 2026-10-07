@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { createChart, CandlestickSeries, LineStyle } from 'lightweight-charts'
+import { createChart, CandlestickSeries, LineStyle, ColorType } from 'lightweight-charts'
 import type { UTCTimestamp } from 'lightweight-charts'
 
 type Props = { token:string; side:'BUY'|'SELL'; entry:number; target:number; stop:number }
@@ -27,7 +27,7 @@ export default function InteractiveTradeChart({token,side,entry,target,stop}:Pro
     if(!containerRef.current)return
     const chart=createChart(containerRef.current,{
       autoSize:true,height:260,
-      layout:{background:{type:'solid',color:'transparent'},textColor:'#64748b'},
+      layout:{background:{type:ColorType.Solid,color:'transparent'},textColor:'#64748b'},
       grid:{vertLines:{color:'rgba(39,48,58,.28)'},horzLines:{color:'rgba(39,48,58,.34)'}},
       rightPriceScale:{borderColor:'rgba(51,65,85,.45)',scaleMargins:{top:.12,bottom:.12}},
       timeScale:{borderColor:'rgba(51,65,85,.45)',timeVisible:true,secondsVisible:false,rightOffset:4},

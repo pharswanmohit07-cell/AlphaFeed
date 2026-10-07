@@ -4,6 +4,7 @@ import OnChainDetails from './components/OnChainDetails'
 import AlphaInsights from './components/AlphaInsights'
 import CopyDrawer from './components/CopyDrawer'
 import LandingPage from './components/LandingPage'
+import LiveTicker from './components/LiveTicker'
 import {
   Activity,
   ArrowUpRight,
@@ -446,8 +447,10 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-ink text-slate-100">
-      <header className="sticky top-0 z-40 border-b border-line bg-ink/85 backdrop-blur-xl">
+    <>
+      <LiveTicker />
+      <div className="min-h-screen overflow-x-hidden bg-ink text-slate-100">
+      <header className="sticky top-7 z-40 border-b border-line bg-ink/95">
         <div className="mx-auto flex h-16 max-w-[1500px] items-center gap-3 px-4 lg:px-6">
           <button className="rounded-xl border border-line p-2 lg:hidden" onClick={() => setMobileOpen((v) => !v)} aria-label="Menu">{mobileOpen ? <X size={19} /> : <Menu size={19} />}</button>
           <div className="flex items-center gap-3 pr-2"><div className="grid size-9 place-items-center rounded-xl bg-accent text-sm font-black text-ink shadow-[0_0_25px_rgba(116,242,124,.15)]">α</div><div className="hidden sm:block"><div className="text-sm font-semibold tracking-tight">AlphaFeed</div><div className="text-[10px] uppercase tracking-[0.22em] text-slate-500">social trading</div></div></div>
@@ -479,6 +482,7 @@ export default function App() {
       {profileTrader && <ProfileModal trader={profileTrader} onClose={() => setProfileTrader(null)} onCopy={(trader) => { setProfileTrader(null); openCopy(trader) }} />}
       {composerOpen && <Composer onClose={() => setComposerOpen(false)} onPublish={publish} />}
       {toast && <div className="fixed bottom-5 right-5 z-[70] flex items-center gap-3 rounded-2xl border border-emerald-900/60 bg-zinc-950/95 px-4 py-3 text-sm shadow-2xl backdrop-blur"><span className="grid size-7 place-items-center rounded-full bg-accent/10 text-accent"><ReceiptText size={14}/></span><div><div className="font-medium text-white">{toast}</div><div className="text-[10px] text-slate-600">AlphaFeed simulated execution feedback</div></div></div>}
-    </div>
+      </div>
+    </>
   )
 }

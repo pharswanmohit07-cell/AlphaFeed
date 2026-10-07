@@ -3,6 +3,7 @@ import InteractiveTradeChart from './components/InteractiveTradeChart'
 import OnChainDetails from './components/OnChainDetails'
 import AlphaInsights from './components/AlphaInsights'
 import CopyDrawer from './components/CopyDrawer'
+import LandingPage from './components/LandingPage'
 import {
   Activity,
   ArrowUpRight,
@@ -368,6 +369,7 @@ function HomeFeed({ feed, setFeed, onCopy, onProfile, onCompose, viewMode, setVi
 }
 
 export default function App() {
+  const [showLanding, setShowLanding] = useState(true)
   const [active, setActive] = useState('Home')
   const [mobileOpen, setMobileOpen] = useState(false)
   const [walletOpen, setWalletOpen] = useState(false)
@@ -385,6 +387,18 @@ export default function App() {
   const openCopy = (trader: Trader, post?: Post) => { setCopyTrader(trader); setCopyPost(post ?? null) }
   const showToast = (message: string) => { setToast(message); window.setTimeout(() => setToast(null), 3200) }
   const publish = (text: string) => { setFeed([{ id: String(Date.now()), trader: traders[0], time: 'now', side: 'BUY', token: 'MON', pair: 'MON / USDC', entry: '$0.4208', target: '$0.5100', stop: '$0.3810', text, likes: 0, comments: 0, chart: 'up', confidence: 'AI pending' }, ...feed]); setComposerOpen(false); setActive('Home') }
+
+  if (showLanding) {
+    return (
+      <LandingPage
+        onLaunchApp={() => setShowLanding(false)}
+        onExploreTraders={() => {
+          setShowLanding(false)
+          setActive('Explore')
+        }}
+      />
+    )
+  }
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-ink text-slate-100">

@@ -88,7 +88,7 @@ export default function LandingPage({onLaunchApp,onExploreTraders}:Props){
   const ticker=TICKER[tickerIndex]
 
   return <div className="relative min-h-screen overflow-x-hidden bg-zinc-950 text-white selection:bg-emerald-400/20">
-    <style>{'
+    <style>{`
       @keyframes afFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
       @keyframes afSlow{0%,100%{transform:translate3d(0,0,0) rotate(0)}50%{transform:translate3d(10px,-15px,0) rotate(3deg)}}
       @keyframes afGlow{0%,100%{box-shadow:0 0 22px rgba(52,211,153,.08)}50%{box-shadow:0 0 46px rgba(52,211,153,.22)}}

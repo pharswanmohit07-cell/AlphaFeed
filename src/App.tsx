@@ -112,9 +112,10 @@ const trendings = [
   ['BTC', '$118,240', '+1.7%'],
 ]
 
-function Avatar({ trader, large = false }: { trader: Trader; large?: boolean }) {
+function Avatar({ trader, large = false, small = false }: { trader: Trader; large?: boolean; small?: boolean }) {
+  const sizeClass = large ? 'size-14 text-sm' : small ? 'size-8 text-[10px]' : 'size-10 text-xs'
   return (
-    <div className={'grid shrink-0 place-items-center rounded-full bg-gradient-to-br ' + trader.accent + ' border border-white/10 font-semibold text-slate-200 ' + (large ? 'size-14 text-sm' : 'size-10 text-xs')}>
+    <div className={'grid shrink-0 place-items-center rounded-full bg-gradient-to-br ' + trader.accent + ' border border-white/10 font-semibold text-slate-200 ' + sizeClass}>
       {trader.avatar}
     </div>
   )
@@ -278,16 +279,17 @@ function Composer({ onClose, onPublish }: { onClose: () => void; onPublish: (tex
   )
 }
 
+const navigationItems: { label: string; icon: LucideIcon }[] = [
+  { label: 'Home', icon: Home },
+  { label: 'Explore', icon: Compass },
+  { label: 'Leaderboard', icon: Trophy },
+  { label: 'Portfolio', icon: Wallet },
+]
+
 function Sidebar({ active, setActive }: { active: string; setActive: (value: string) => void }) {
-  const nav: { label: string; icon: LucideIcon }[] = [
-    { label: 'Home', icon: Home },
-    { label: 'Explore', icon: Compass },
-    { label: 'Leaderboard', icon: Trophy },
-    { label: 'Portfolio', icon: Wallet },
-  ]
   return (
     <aside className="hidden min-h-[calc(100vh-64px)] border-r border-line p-4 lg:block">
-      <nav className="space-y-1">{nav.map(({ label, icon: Icon }) => <button key={label} onClick={() => setActive(label)} className={'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm ' + (active === label ? 'bg-white/[0.07] text-white' : 'text-slate-500 hover:bg-white/[0.03] hover:text-slate-300')}><Icon size={18} />{label}</button>)}</nav>
+      <nav className="space-y-1">{navigationItems.map(({ label, icon: Icon }) => <button key={label} onClick={() => setActive(label)} className={'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm ' + (active === label ? 'bg-white/[0.07] text-white' : 'text-slate-500 hover:bg-white/[0.03] hover:text-slate-300')}><Icon size={18} />{label}</button>)}</nav>
       <div className="mt-8 border-t border-line pt-5"><button className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-500 hover:text-slate-300"><Settings size={18} />Settings</button></div>
       <div className="mt-8 rounded-2xl border border-line bg-panel p-4"><div className="flex items-center gap-2 text-xs font-semibold text-slate-300"><Zap size={14} className="text-accent" />Alpha Insight</div><p className="mt-2 text-sm leading-6 text-slate-600">AI chart analysis will plug into this panel. Every trade still shows its on-chain source.</p></div>
     </aside>
@@ -373,7 +375,7 @@ function App() {
 
       <main className="mx-auto grid max-w-[1500px] grid-cols-1 lg:grid-cols-[220px_minmax(0,1fr)_300px]">
         <Sidebar active={active} setActive={setActive} />
-        {mobileOpen && <div className="absolute left-0 top-16 z-30 w-64 border-r border-b border-line bg-ink p-4 shadow-xl lg:hidden"><nav className="space-y-1">{[{label:'Home',icon:Home},{label:'Explore',icon:Compass},{label:'Leaderboard',icon:Trophy},{label:'Portfolio',icon:Wallet}].map(({label,icon:Icon}) => <button key={label} onClick={() => { setActive(label); setMobileOpen(false) }} className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm text-slate-300"><Icon size={18} />{label}</button>)}</nav></div>}
+        {mobileOpen && <div className="absolute left-0 top-16 z-30 w-64 border-r border-b border-line bg-ink p-4 shadow-xl lg:hidden"><nav className="space-y-1">{navigationItems.map(({label,icon:Icon}) => <button key={label} onClick={() => { setActive(label); setMobileOpen(false) }} className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm text-slate-300"><Icon size={18} />{label}</button>)}</nav></div>}
 
         <section className="min-w-0 border-r border-line">
           <div className="border-b border-line px-4 py-5 sm:px-6"><h1 className="text-xl font-semibold tracking-tight">{title}</h1><p className="mt-1 text-xs text-slate-500">{active === 'Home' ? 'Verified on-chain ideas from the traders you follow.' : 'Built around transparent trader performance and controlled execution.'}</p></div>
@@ -393,3 +395,5 @@ function App() {
     </div>
   )
 }
+
+export default App

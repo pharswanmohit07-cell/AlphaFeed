@@ -157,7 +157,7 @@ function ChartCard({ post }: { post: Post }) {
         <defs>
           <linearGradient id={'fill-' + post.id} x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopColor="#74f27c" stopOpacity="0.18" /><stop offset="100%" stopColor="#74f27c" stopOpacity="0" /></linearGradient>
         </defs>
-        <path d={\`M 0 \${post.chart === 'up' ? 168 : 58} L \${post.chart === 'up' ? '42 158 88 174 134 136 176 146 226 116 267 127 315 92 362 103 406 70 462 76 522 47 600 31' : '46 67 92 48 138 68 182 86 232 76 281 104 331 93 382 120 432 110 484 139 536 126 600 145'} L 600 220 L 0 220 Z\`} fill={'url(#fill-' + post.id + ')'} />
+        <path d={'M 0 ' + (post.chart === 'up' ? 168 : 58) + ' L ' + (post.chart === 'up' ? '42 158 88 174 134 136 176 146 226 116 267 127 315 92 362 103 406 70 462 76 522 47 600 31' : '46 67 92 48 138 68 182 86 232 76 281 104 331 93 382 120 432 110 484 139 536 126 600 145') + ' L 600 220 L 0 220 Z'} fill={'url(#fill-' + post.id + ')'} />
         <polyline fill="none" stroke={post.chart === 'up' ? '#74f27c' : '#63d8ff'} strokeWidth="4" points={points} />
       </svg>
       <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-[10px] text-slate-400 backdrop-blur"><Radio size={11} className="text-accent" /> Live market</div>

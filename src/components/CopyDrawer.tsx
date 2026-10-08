@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import { AlertTriangle, Check, ShieldCheck, X, Zap } from 'lucide-react'
-
-type Trader={name:string;handle:string}
-type Post={token:string;side:'BUY'|'SELL';entry:string}
+import type { TradeIdea as Post, Trader } from '../domain/trading'
 type Props={trader:Trader;post:Post|null;onClose:()=>void;onSaved?:()=>void;onSimulateFill?:()=>void}
 
 export default function CopyDrawer({trader,post,onClose,onSaved,onSimulateFill}:Props){

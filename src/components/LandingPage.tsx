@@ -290,7 +290,7 @@ export default function LandingPage({ onLaunchApp, onExploreTraders }: Props) {
   }
 
   return (
-      <div className="min-h-screen overflow-x-hidden bg-ink text-zinc-100">
+      <div className="af-landing min-h-screen overflow-x-hidden bg-ink text-zinc-100">
       <style>{`
         @keyframes alpha-float {
           0%, 100% { transform: translateY(0); }
@@ -311,10 +311,10 @@ export default function LandingPage({ onLaunchApp, onExploreTraders }: Props) {
       <div className="pointer-events-none fixed right-[5%] top-[16%] -z-10 size-96 rounded-full bg-cyan-500/10 blur-3xl" />
       <div className="pointer-events-none fixed left-[45%] top-[54%] -z-10 size-72 rounded-full bg-indigo-500/[.06] blur-3xl" />
 
-      <header className="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/75 backdrop-blur-xl">
+      <header className="af-topbar sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/75 backdrop-blur-xl">
         <div className="mx-auto flex h-[72px] max-w-[1500px] items-center gap-4 px-4 sm:px-6 lg:px-8">
           <button type="button" onClick={() => scrollTo('top')} className="group flex items-center gap-2.5" aria-label="AlphaFeed home">
-            <span className="grid size-9 place-items-center rounded-xl bg-violet-400 text-sm font-black text-zinc-950 shadow-[0_0_28px_rgba(167,139,250,.28)] transition group-hover:rotate-6">α</span>
+            <span className="af-brand-glow grid size-9 place-items-center rounded-xl bg-violet-400 text-sm font-black text-zinc-950 transition group-hover:rotate-6">α</span>
             <span className="hidden text-sm font-semibold tracking-tight sm:block">Alpha<span className="text-violet-300">Feed</span></span>
           </button>
 
@@ -341,7 +341,7 @@ export default function LandingPage({ onLaunchApp, onExploreTraders }: Props) {
       <main id="top">
         <section className="relative px-4 pb-20 pt-16 sm:px-6 sm:pt-20 lg:px-8 lg:pt-24">
           <div className="mx-auto grid max-w-[1500px] items-center gap-14 lg:grid-cols-[.88fr_1.12fr] lg:gap-16">
-            <div>
+            <div className="af-reveal">
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-400/15 bg-emerald-400/[.05] px-3 py-1.5 font-mono text-[9px] uppercase tracking-[.2em] text-emerald-300 shadow-[0_0_30px_rgba(52,211,153,.05)]">
                 <span className="size-1.5 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,.9)]" />
                 Social trading infrastructure
@@ -362,7 +362,7 @@ export default function LandingPage({ onLaunchApp, onExploreTraders }: Props) {
               </div>
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <button type="button" onClick={onLaunchApp} className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-violet-500 to-cyan-400 px-6 py-4 text-sm font-bold text-zinc-950 shadow-[0_0_42px_rgba(139,92,246,.25)] transition hover:-translate-y-1 hover:shadow-[0_0_65px_rgba(139,92,246,.38)]">
+                <button type="button" onClick={onLaunchApp} className="af-shimmer group relative flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-violet-500 to-cyan-400 px-6 py-4 text-sm font-bold text-zinc-950 shadow-[0_0_42px_rgba(139,92,246,.25)] transition hover:-translate-y-1 hover:shadow-[0_0_65px_rgba(139,92,246,.38)]">
                   <span className="absolute inset-y-0 -left-20 w-16 skew-x-[-18deg] bg-white/35 blur-lg transition-transform duration-700 group-hover:translate-x-[500px]" />
                   Launch App
                   <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
@@ -372,7 +372,7 @@ export default function LandingPage({ onLaunchApp, onExploreTraders }: Props) {
                 </button>
               </div>
 
-              <div className="mt-10 overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-900/45 shadow-[0_20px_60px_rgba(0,0,0,.18)] backdrop-blur-xl">
+              <div className="af-panel-hover mt-10 overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-900/45 shadow-[0_20px_60px_rgba(0,0,0,.18)] backdrop-blur-xl">
                 <div className="flex items-center justify-between border-b border-zinc-800/70 px-4 py-3">
                   <div className="flex items-center gap-2 text-[9px] uppercase tracking-[.18em] text-zinc-500"><Radio size={13} className="text-emerald-400" />Live Stats</div>
                   <div className="flex items-center gap-2 font-mono text-[9px] text-emerald-400"><span className="size-1.5 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,.9)]" />STREAMING</div>
@@ -383,7 +383,7 @@ export default function LandingPage({ onLaunchApp, onExploreTraders }: Props) {
                 </div>
               </div>
 
-              <div className="mt-5 rounded-[1.65rem] border border-emerald-400/10 bg-gradient-to-br from-emerald-400/[.045] via-zinc-900/70 to-cyan-400/[.035] p-5 shadow-[0_25px_80px_rgba(52,211,153,.06)] backdrop-blur-xl">
+              <div className="af-panel-hover mt-5 rounded-[1.65rem] border border-violet-400/15 bg-gradient-to-br from-violet-400/[.09] via-zinc-900/70 to-cyan-400/[.06] p-5 shadow-[0_25px_80px_rgba(139,92,246,.1)] backdrop-blur-xl">
                 <div className="flex items-start justify-between gap-5">
                   <div>
                     <div className="flex items-center gap-2 text-[10px] uppercase tracking-[.18em] text-emerald-400"><Sparkles size={13} />Estimated Copy Returns</div>
@@ -413,9 +413,9 @@ export default function LandingPage({ onLaunchApp, onExploreTraders }: Props) {
               </div>
             </div>
 
-            <div id="terminal" className="relative scroll-mt-24">
+            <div id="terminal" className="af-reveal af-reveal-delay-2 relative scroll-mt-24">
               <div className="pointer-events-none absolute -inset-8 rounded-[3rem] bg-gradient-to-br from-emerald-500/10 via-indigo-500/[.05] to-cyan-500/10 blur-[72px]" />
-              <div className="af-float relative overflow-hidden rounded-[2rem] border border-zinc-800/80 bg-zinc-900/60 shadow-[0_0_50px_rgba(16,185,129,0.15)] backdrop-blur-xl">
+              <div className="af-panel af-float relative overflow-hidden rounded-[2rem] border border-violet-400/15 bg-zinc-900/60 shadow-[0_0_60px_rgba(139,92,246,0.16)] backdrop-blur-xl">
                 <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-white/[.045] to-transparent" />
                 <div className="relative flex flex-wrap items-center justify-between gap-3 border-b border-zinc-800/80 px-4 py-3">
                   <div className="flex items-center gap-2"><span className="size-2 rounded-full bg-rose-400/70" /><span className="size-2 rounded-full bg-amber-300/70" /><span className="size-2 rounded-full bg-emerald-400/80" /></div>

@@ -258,14 +258,32 @@ function Portfolio() {
 }
 
 function TerminalView({ feed, onCopy }: { feed: Post[]; onCopy: (trader: Trader, post: Post) => void }) {
-  return <div className="overflow-x-auto p-3 sm:p-4">
-    <div className="min-w-[760px] overflow-hidden rounded-2xl border border-zinc-800/60 bg-zinc-900/80">
-      <div className="grid grid-cols-[1.1fr_70px_110px_110px_110px_100px] gap-3 border-b border-zinc-800/60 px-4 py-3 text-[9px] uppercase tracking-[0.16em] text-slate-600"><span>Market / Trader</span><span>Side</span><span>Entry</span><span>Target</span><span>Stop</span><span>Action</span></div>
-      {feed.map(post=><div key={post.id} className="grid grid-cols-[1.1fr_70px_110px_110px_110px_100px] items-center gap-3 border-b border-zinc-800/60 px-4 py-3 text-xs last:border-0 hover:bg-white/[0.02]">
-        <div className="flex items-center gap-2.5"><Avatar trader={post.trader} small/><div><div className="font-medium text-slate-200">{post.token}/USDC</div><div className="text-[10px] text-slate-600">{post.trader.name} · {post.time}</div></div></div>
-        <span className={post.side==='BUY'?'text-accent':'text-rose-300'}>{post.side}</span><span>{post.entry}</span><span className="text-accent">{post.target}</span><span className="text-rose-300">{post.stop}</span>
-        <button onClick={()=>onCopy(post.trader,post)} className="rounded-lg bg-accent px-2.5 py-2 text-[10px] font-bold text-ink hover:brightness-105">Quick Copy</button>
-      </div>)}
+  return <div className="p-3 sm:p-4">
+    <div className="overflow-x-auto rounded-2xl border border-line bg-panel shadow-[0_18px_50px_rgba(0,0,0,.2)]">
+      <div className="min-w-[760px]">
+        <div className="grid grid-cols-[1.1fr_70px_110px_110px_110px_100px] gap-3 border-b border-line px-4 py-3 text-[9px] uppercase tracking-[0.16em] text-slate-600"><span>Market / Trader</span><span>Side</span><span>Entry</span><span>Target</span><span>Stop</span><span>Action</span></div>
+        {feed.map(post=><div key={post.id} className="grid grid-cols-[1.1fr_70px_110px_110px_110px_100px] items-center gap-3 border-b border-line px-4 py-3 text-xs last:border-0 transition hover:bg-violet-400/[.04]">
+          <div className="flex items-center gap-2.5"><Avatar trader={post.trader} small/><div><div className="font-medium text-slate-200">{post.token}/USDC</div><div className="text-[10px] text-slate-600">{post.trader.name} · {post.time}</div></div></div>
+          <span className={post.side==='BUY'?'text-accent':'text-rose-300'}>{post.side}</span><span>{post.entry}</span><span className="text-accent">{post.target}</span><span className="text-rose-300">{post.stop}</span>
+          <button onClick={()=>onCopy(post.trader,post)} className="rounded-lg bg-accent px-2.5 py-2 text-[10px] font-bold text-ink transition hover:-translate-y-0.5 hover:brightness-105">Quick Copy</button>
+        </div>)}
+      </div>
+    </div>
+
+    <div className="mt-5 flex items-center justify-between px-1"><div><div className="text-xs font-semibold uppercase tracking-[.16em] text-slate-500">Workspace snapshot</div><div className="mt-1 text-sm text-slate-600">Demo terminal telemetry and guardrails</div></div><span className="rounded-full border border-violet-400/20 bg-violet-400/10 px-2.5 py-1 text-[10px] uppercase tracking-wider text-violet-200">Demo data</span></div>
+    <div className="mt-3 grid gap-3 sm:grid-cols-2">
+      <div className="af-panel-hover rounded-2xl border border-line bg-panel p-4">
+        <div className="flex items-center justify-between"><div className="flex items-center gap-2 text-sm font-semibold"><Radio size={15} className="text-electric"/>Market session</div><span className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-accent"><span className="size-1.5 animate-pulse rounded-full bg-accent"/>Healthy</span></div>
+        <div className="mt-4 grid grid-cols-2 gap-3"><div><div className="text-[10px] uppercase tracking-wider text-slate-600">Network</div><div className="mt-1 text-sm font-semibold">Monad testnet</div></div><div><div className="text-[10px] uppercase tracking-wider text-slate-600">Latency</div><div className="mt-1 text-sm font-semibold">142 ms</div></div><div><div className="text-[10px] uppercase tracking-wider text-slate-600">Liquidity</div><div className="mt-1 text-sm font-semibold">$4.8M</div></div><div><div className="text-[10px] uppercase tracking-wider text-slate-600">Spread</div><div className="mt-1 text-sm font-semibold text-accent">0.14%</div></div></div>
+      </div>
+      <div className="af-panel-hover rounded-2xl border border-line bg-panel p-4">
+        <div className="flex items-center justify-between"><div className="flex items-center gap-2 text-sm font-semibold"><ShieldCheck size={15} className="text-accent"/>Risk guardrails</div><span className="rounded-full bg-accent/10 px-2 py-1 text-[10px] text-accent">Protected</span></div>
+        <div className="mt-4 space-y-3"><div><div className="flex justify-between text-[10px] text-slate-500"><span>Max per trade</span><span className="text-slate-200">$50 / $500</span></div><div className="mt-1.5 h-1.5 rounded-full bg-slate-800"><div className="h-full w-[10%] rounded-full bg-accent"/></div></div><div><div className="flex justify-between text-[10px] text-slate-500"><span>Drawdown stop</span><span className="text-slate-200">10%</span></div><div className="mt-1.5 h-1.5 rounded-full bg-slate-800"><div className="h-full w-[34%] rounded-full bg-electric"/></div></div></div>
+      </div>
+      <div className="af-panel-hover sm:col-span-2 rounded-2xl border border-line bg-panel p-4">
+        <div className="flex items-center justify-between"><div className="flex items-center gap-2 text-sm font-semibold"><Activity size={15} className="text-violet-300"/>Execution queue</div><span className="text-[10px] uppercase tracking-wider text-slate-600">3 signals monitored</span></div>
+        <div className="mt-3 divide-y divide-line">{[['Alice Chen','MON / USDC','Signal received','text-accent'],['David Rao','ETH / USDC','Waiting for confirmation','text-amber-300'],['Sarah Malik','BTC / USDC','Ready to simulate','text-violet-200']].map(([name,market,state,tone])=><div key={name} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0"><span className="grid size-7 place-items-center rounded-lg bg-white/[.04] text-[10px] font-bold text-slate-300">{name.split(' ').map(part=>part[0]).join('')}</span><div className="min-w-0 flex-1"><div className="text-xs font-medium text-slate-200">{name}<span className="ml-2 text-slate-600">{market}</span></div><div className="mt-0.5 text-[10px] text-slate-600">{state}</div></div><span className={'text-[10px] '+tone}>●</span></div>)}</div>
+      </div>
     </div>
   </div>
 }

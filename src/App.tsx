@@ -368,7 +368,7 @@ export default function App() {
     <>
       <LiveTicker />
       <div className="min-h-screen overflow-x-hidden bg-ink text-slate-100">
-      <header className="sticky top-7 z-40 border-b border-line bg-ink/95">
+      <header className="relative z-40 border-b border-line bg-ink">
         <div className="mx-auto flex h-16 max-w-[1500px] items-center gap-3 px-4 lg:px-6">
           <button className="rounded-xl border border-line p-2 lg:hidden" onClick={() => setMobileOpen((v) => !v)} aria-label="Menu">{mobileOpen ? <X size={19} /> : <Menu size={19} />}</button>
           <div className="flex items-center gap-3 pr-2"><div className="grid size-9 place-items-center rounded-xl bg-accent text-sm font-black text-ink shadow-[0_0_25px_rgba(116,242,124,.15)]">α</div><div className="hidden sm:block"><div className="text-sm font-semibold tracking-tight">AlphaFeed</div><div className="text-[10px] uppercase tracking-[0.22em] text-slate-500">social trading</div></div></div>
@@ -385,7 +385,7 @@ export default function App() {
 
       <main className="mx-auto grid max-w-[1500px] grid-cols-1 lg:grid-cols-[220px_minmax(0,1fr)_315px]">
         <Sidebar active={active} setActive={setActive} performanceMode={performanceMode} onPerformanceModeChange={setPerformanceMode} />
-        {mobileOpen && <div className="absolute left-0 top-16 z-30 w-64 border-r border-b border-line bg-ink p-4 shadow-xl lg:hidden"><nav className="space-y-1">{navigationItems.map(({label,icon:Icon}) => <button key={label} onClick={() => { setActive(label); setMobileOpen(false) }} className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm text-slate-300"><Icon size={18} />{label}</button>)}</nav></div>}
+        {mobileOpen && <div className="absolute left-0 top-[92px] z-30 w-64 border-r border-b border-line bg-ink p-4 shadow-xl lg:hidden"><nav className="space-y-1">{navigationItems.map(({label,icon:Icon}) => <button key={label} onClick={() => { setActive(label); setMobileOpen(false) }} className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm text-slate-300"><Icon size={18} />{label}</button>)}</nav></div>}
 
         <section className="min-w-0 border-r border-line">
           {active === 'Home' && <HomeFeed feed={feed} setFeed={setFeed} onCopy={openCopy} onProfile={setProfileTrader} onCompose={() => setComposerOpen(true)} viewMode={viewMode} setViewMode={setViewMode} />}

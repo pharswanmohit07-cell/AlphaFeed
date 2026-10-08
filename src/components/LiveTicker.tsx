@@ -41,7 +41,7 @@ function LiveTicker() {
   )
 
   return (
-    <div className="sticky top-0 z-[60] h-7 overflow-hidden border-b border-zinc-800/80 bg-zinc-950/95 font-mono text-[9px]">
+    <div className="relative z-[60] h-7 overflow-hidden border-b border-line bg-ink font-mono text-[9px]">
       <div className="mx-auto flex h-full max-w-[1500px] items-center gap-5 px-4 sm:px-6 lg:px-8">
         <div className="flex shrink-0 items-center gap-1.5 text-emerald-400">
           <Activity size={11} aria-hidden="true" />

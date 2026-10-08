@@ -290,7 +290,7 @@ export default function LandingPage({ onLaunchApp, onExploreTraders }: Props) {
   }
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-zinc-950 text-zinc-100">
+      <div className="min-h-screen overflow-x-hidden bg-ink text-zinc-100">
       <style>{`
         @keyframes alpha-float {
           0%, 100% { transform: translateY(0); }
@@ -306,16 +306,16 @@ export default function LandingPage({ onLaunchApp, onExploreTraders }: Props) {
       `}</style>
 
       <div className="pointer-events-none fixed inset-0 -z-10 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px)] bg-[size:32px_32px] af-grid" />
-      <div className="pointer-events-none fixed inset-0 -z-20 bg-zinc-950" />
-      <div className="pointer-events-none fixed left-[8%] top-24 -z-10 size-80 rounded-full bg-emerald-500/10 blur-3xl" />
+      <div className="pointer-events-none fixed inset-0 -z-20 bg-ink" />
+      <div className="pointer-events-none fixed left-[8%] top-24 -z-10 size-80 rounded-full bg-violet-500/15 blur-3xl" />
       <div className="pointer-events-none fixed right-[5%] top-[16%] -z-10 size-96 rounded-full bg-cyan-500/10 blur-3xl" />
       <div className="pointer-events-none fixed left-[45%] top-[54%] -z-10 size-72 rounded-full bg-indigo-500/[.06] blur-3xl" />
 
       <header className="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/75 backdrop-blur-xl">
         <div className="mx-auto flex h-[72px] max-w-[1500px] items-center gap-4 px-4 sm:px-6 lg:px-8">
           <button type="button" onClick={() => scrollTo('top')} className="group flex items-center gap-2.5" aria-label="AlphaFeed home">
-            <span className="grid size-9 place-items-center rounded-xl bg-emerald-400 text-sm font-black text-zinc-950 shadow-[0_0_28px_rgba(52,211,153,.2)] transition group-hover:rotate-6">α</span>
-            <span className="hidden text-sm font-semibold tracking-tight sm:block">Alpha<span className="text-emerald-400">Feed</span></span>
+            <span className="grid size-9 place-items-center rounded-xl bg-violet-400 text-sm font-black text-zinc-950 shadow-[0_0_28px_rgba(167,139,250,.28)] transition group-hover:rotate-6">α</span>
+            <span className="hidden text-sm font-semibold tracking-tight sm:block">Alpha<span className="text-violet-300">Feed</span></span>
           </button>
 
           <nav className="ml-5 hidden items-center gap-1 md:flex">
@@ -350,7 +350,7 @@ export default function LandingPage({ onLaunchApp, onExploreTraders }: Props) {
               <h1 className="max-w-4xl text-5xl font-semibold leading-[.92] tracking-[-.055em] text-white sm:text-6xl lg:text-[5.35rem]">
                 Social Trading
                 <span className="block">Meets</span>
-                <span className="mt-2 block bg-gradient-to-r from-emerald-400 via-cyan-400 to-indigo-500 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(52,211,153,.22)]">On-Chain Execution.</span>
+                <span className="mt-2 block bg-gradient-to-r from-violet-300 via-cyan-300 to-indigo-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(167,139,250,.28)]">On-Chain Execution.</span>
               </h1>
 
               <p className="mt-7 max-w-2xl text-sm leading-7 text-zinc-400 sm:text-base">Discover high-signal traders, inspect chart context and explore programmable execution flows built around Monad, Kuru orderbooks, Chainlink CRE and AI-assisted analysis.</p>
@@ -362,7 +362,7 @@ export default function LandingPage({ onLaunchApp, onExploreTraders }: Props) {
               </div>
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <button type="button" onClick={onLaunchApp} className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-400 px-6 py-4 text-sm font-bold text-zinc-950 shadow-[0_0_42px_rgba(52,211,153,.22)] transition hover:-translate-y-1 hover:shadow-[0_0_65px_rgba(52,211,153,.34)]">
+                <button type="button" onClick={onLaunchApp} className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-violet-500 to-cyan-400 px-6 py-4 text-sm font-bold text-zinc-950 shadow-[0_0_42px_rgba(139,92,246,.25)] transition hover:-translate-y-1 hover:shadow-[0_0_65px_rgba(139,92,246,.38)]">
                   <span className="absolute inset-y-0 -left-20 w-16 skew-x-[-18deg] bg-white/35 blur-lg transition-transform duration-700 group-hover:translate-x-[500px]" />
                   Launch App
                   <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />

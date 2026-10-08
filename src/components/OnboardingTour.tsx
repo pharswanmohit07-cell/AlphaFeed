@@ -124,7 +124,7 @@ export default function OnboardingTour() {
 
   return (
     <div className="fixed inset-0 z-[100]">
-      <div className="absolute inset-0 bg-[#040611]/70 backdrop-blur-[2px]" />
+      <div className="pointer-events-none absolute inset-0 bg-transparent" />
       {targetRect && <div className="pointer-events-none absolute rounded-2xl border border-violet-300/90 bg-violet-300/[.06] shadow-[0_0_0_9999px_rgba(4,6,17,.52),0_0_0_5px_rgba(167,139,250,.18),0_0_34px_rgba(139,92,246,.6)] transition-all duration-300" style={{ top: targetRect.top - 7, left: targetRect.left - 7, width: targetRect.width + 14, height: targetRect.height + 14 }} />}
       {targetRect && <div className="pointer-events-none absolute text-violet-200 drop-shadow-[0_0_12px_rgba(167,139,250,.9)]" style={{ top: step.placement === 'top' ? targetRect.top - 32 : targetRect.top + targetRect.height / 2 - 10, left: step.placement === 'right' ? targetRect.left + targetRect.width + 4 : Math.max(8, targetRect.left - 28) }}>
         {step.placement === 'right' ? <ArrowRight size={22} /> : step.placement === 'left' ? <ArrowLeft size={22} /> : step.placement === 'top' ? <ArrowUp size={22} /> : <ArrowDown size={22} />}
